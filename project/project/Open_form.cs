@@ -59,6 +59,8 @@ namespace project
             game.ShowDialog();
         }
 
+      
+
         /*private void mermaid2_Click(object sender, EventArgs e)
         {
             Character_image = project.Properties.Resources.girl_brown;
