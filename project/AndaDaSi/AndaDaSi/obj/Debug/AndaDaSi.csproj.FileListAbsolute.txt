@@ -1,0 +1,10 @@
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\bin\Debug\AndaDaSi.exe.config
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\bin\Debug\AndaDaSi.exe
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\bin\Debug\AndaDaSi.pdb
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.csprojAssemblyReference.cache
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.UnderTheSea.resources
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.Properties.Resources.resources
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.csproj.GenerateResource.cache
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.csproj.CoreCompileInputs.cache
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.exe
+C:\Users\hugoc\Desktop\C#\AndaDaSi\AndaDaSi\obj\Debug\AndaDaSi.pdb
