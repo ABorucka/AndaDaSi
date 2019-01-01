@@ -55,7 +55,7 @@ namespace project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1 game = new Form1(Character_image);
+            UnderTheSea game = new UnderTheSea(Character_image);
             game.ShowDialog();
         }
 

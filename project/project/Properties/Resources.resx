@@ -124,7 +124,16 @@
   <data name="girl_brown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\girl_brown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="spike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spike.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spikeLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spikeLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="underwater_background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\underwater_background.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ursula" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ursula.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
