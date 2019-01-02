@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 
 namespace project
 {
-    
+
     public partial class UnderTheSea : Form
     {
 
@@ -19,9 +20,10 @@ namespace project
         int impulsTime = 0;
         int point = 0;
         bool move = false;
-		// public delegate void KeyPressEventHandler(object sender, KeyPressEventArgs e);
+        int obstackles = 0;
+        bool newGame = true;
 
-		Random rand = new Random();
+        Random rand = new Random();
 		List<SpikeRight> listSpikesRight = new List<SpikeRight>();
 		List<SpikeLeft> listSpikesLeft = new List<SpikeLeft>();
 		Ursula ursula = new Ursula();
@@ -32,6 +34,8 @@ namespace project
 		int[] placesForSpikes = new int[numberOfSpikes];
 		bool leftSide;
 		bool go;
+        int ursulaTmpY = 0;
+        int ursulaRand = 0;
 
 		public UnderTheSea(Image character_image)
         {
@@ -40,14 +44,19 @@ namespace project
             marmaid.Location = new Point(theOcean.Width/2-25, theOcean.Height/2-35);
             theOcean.Controls.Add(marmaid);
 
-            timerMarmaidMove.Interval = 3;
+            timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = true;
             timerMarmaidMove.Start();
             timerMarmaidMove.Tick += new EventHandler(TimerMove_Tick);
+
             timerOxygen.Interval = 10 * timerMarmaidMove.Interval;
             timerOxygen.Tick += new EventHandler(TimerOxygen_Tick);
-			timerSpikeMove.Interval = 2000;
-		}
+
+            gameOverLabel.Visible = false;
+            playAgainButton.Visible = false;
+
+
+        }
 
 		private void NoRepeatingSpikesPosition()
 		{
@@ -88,9 +97,10 @@ namespace project
 				listSpikesLeft.Add(newSpikeL);
 				theOcean.Controls.Add(newSpikeL);
 			}
-			ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
-			ursula.Y = rand.Next(0, theOcean.Height - ursulaSize - spikeSize);
-			ursula.Location = new Point(ursula.X, ursula.Y);
+            //ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
+            //ursula.Y = rand.Next(0, theOcean.Height - ursulaSize - spikeSize);
+           
+            ursula.Location = new Point(theOcean.Height, theOcean.Height);
 			theOcean.Controls.Add(ursula);
 		}
 
@@ -98,23 +108,69 @@ namespace project
         {
             if (move)
             {
+                
+                if (obstackles>0)
+                {
+                    if (obstackles < 11 && obstackles > 5)
+                        Spikes_hide();
+                    else if (obstackles < 6)
+                        Spikes_show();
+                      
+                    if (obstackles == 6)
+                    {
+                        NoRepeatingSpikesPosition();
+                        Spikes_spreading();
+                    }
+                    obstackles--;
+                }
+                
+/* Bouncing off the wall and init spikes move */
+
                 if ((theOcean.Width <= (marmaid.Right) || (marmaid.Left) <= 0))
                 {
                     marmaid.Vx *= -1;
                     marmaid.rotate180();
                     points_display.Text = Convert.ToString(++point);
+                    obstackles = 13;
+                  //  ursulaTmpY = 0;
+                    
                 }
                 marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), marmaid.Top + Convert.ToInt32(marmaid.Vy));
 
+/* Collision with Ursula */
+                bool ursulaFromLeft = (marmaid.Right >= ursula.Left) && (marmaid.Right <= ursula.Right);
+                bool ursulaFromRight = (marmaid.Left >= ursula.Left) && (marmaid.Left <= ursula.Right);
+                bool ursulaFromTop = (marmaid.Bottom >= ursula.Bottom) && (marmaid.Bottom <= ursula.Top);
+                bool ursulaFromBottom = (marmaid.Top >= ursula.Bottom) && (marmaid.Top <= ursula.Top);
+                if (ursulaFromLeft || ursulaFromRight || ursulaFromBottom || ursulaFromTop)
+                {
+                    marmaid.BackColor = Color.Red;
+                    ursula.BackColor = Color.AliceBlue;
+                }
                 if (impulsTime != 0)
                 {
                     impulsTime--;
                     marmaid.Vy++;
                 }
+/*Random - if Ursula appear in the ocean*/
+                if (ursulaRand == 0 && rand.Next(0,2)<0.0001 )
+                {
+                    ursulaTmpY = 0;
+                    ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
+                    ursulaRand = 200;
+                    //ursula.BackColor = Color.FromArgb(90, rand.Next(0,200), rand.Next(0, 200), rand.Next(0, 200));
+                }
+
+                if(ursulaRand>0 )
+                {
+                    Ursula_down(ursulaTmpY);
+                    ursulaTmpY += (theOcean.Height / 199);
+                    ursulaRand--;
+                }
                    
             }
         }
-
+/* Init spikes and Ursula */
 		private void UnderTheSea_Load(object sender, EventArgs e)
 		{
 			timerSpikeMove.Enabled = true;
@@ -122,12 +178,12 @@ namespace project
 			StartListOfSpikes();
 			leftSide = false;
 		}
-
+/* Determine hight of the ocean */
 		private void theOcean_Paint(object sender, PaintEventArgs e)
 		{
 			theOcean.Height = spikeSize * placeForSpikes;
 		}
-
+/* Oxygen is running out */
 		private void TimerOxygen_Tick(object sender, EventArgs e)
         {
             oxygen_progers.Value--;
@@ -136,134 +192,125 @@ namespace project
                 move = false;
                 timerOxygen.Enabled = false;
                 timerOxygen.Stop();
+                gameOverLabel.Visible = true;
+                playAgainButton.Visible = true;
+                newGame = false;
+            }
+        }
+/* Watching mouse click - bouncing the character */
+        private void panel1_MoveClick(object sender, MouseEventArgs e)
+        {
+            if (newGame)
+            {
+                move = true;
+                marmaid.Vy = -7;
+                impulsTime = 8;
+                timerOxygen.Enabled = true;
+                timerOxygen.Start();
+                
             }
         }
 
-        private void panel1_MoveClick(object sender, MouseEventArgs e)
+		
+
+
+        private void Spikes_show()
         {
-            move = true;
-            marmaid.Vy = -7;
-            impulsTime = 8;
-            timerOxygen.Enabled = true;
-            timerOxygen.Start();
+                if (leftSide == true)
+                {
+                    foreach (SpikeLeft s in listSpikesLeft)
+                    {
+                        s.X += 6;
+                        s.Location = new Point(s.X, s.Y);
+                    }
+                }
+                else if (leftSide == false)
+                {
+                    foreach (SpikeRight s in listSpikesRight)
+                    {
+                        s.X -= 6;
+                        s.Location = new Point(s.X, s.Y);
+                    }
+                }
+                theOcean.Refresh();
+            
         }
 
-		private void Spikes_show()
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				if (leftSide == true)
-				{
-					foreach (SpikeLeft s in listSpikesLeft)
-					{
-						s.X += 3;
-						s.Location = new Point(s.X, s.Y);
-					}
-				}
-				else if (leftSide == false)
-				{
-					foreach (SpikeRight s in listSpikesRight)
-					{
-						s.X -= 3;
-						s.Location = new Point(s.X, s.Y);
-					}
-				}
-				theOcean.Refresh();
-			}
-		}
+       
+        private void Ursula_down(int tmpY)
+        {
+            theOcean.Refresh();
+            ursula.Location = new Point(ursula.X, tmpY);
+        }
 
-		private void Ursula_show()
-		{
-			int tmpY = theOcean.Height;
-			for (int i = 0; i < 45; i++)
-			{
-				ursula.Location = new Point(ursula.X, tmpY);
-				theOcean.Refresh();
-				tmpY -= 10;
-				if (tmpY <= ursula.Y) break;
-			}
-		}
+        private void Spikes_hide()
+        {
+            
+                if (leftSide == true)
+                {
+                    foreach (SpikeLeft s in listSpikesLeft)
+                    {
+                        s.X -= 6;
+                        s.Location = new Point(s.X, s.Y);
+                    }
+                }
+                else if (leftSide == false)
+                {
+                    foreach (SpikeRight s in listSpikesRight)
+                    {
+                        s.X += 6;
+                        s.Location = new Point(s.X, s.Y);
+                    }
+                }
+                theOcean.Refresh();
+            
+        }
+/* New places for spikes */
+        public void Spikes_spreading()
+        {
 
-		private void Ursula_hide()
-		{
-			for (int i = 0; i < 45; i++)
-			{
-				theOcean.Refresh();
-				ursula.Y += 10;
-				ursula.Location = new Point(ursula.X, ursula.Y);
+            if (leftSide == false) { leftSide = true; }
+            else if (leftSide == true) { leftSide = false; }
 
-				if (ursula.Y >= theOcean.Height) break;
-			}
-		}
+            int n = 0;
+            if (leftSide == true)
+            {
+                foreach (SpikeLeft s in listSpikesLeft)
+                {
+                    s.X = 0 - spikeSize;
+                    s.Y = placesForSpikes[n] * spikeSize;
+                    s.Location = new Point(s.X, s.Y);
+                    theOcean.Controls.Add(s);
+                    n++;
+                }
+            }
+            else if (leftSide == false)
+            {
+                foreach (SpikeRight s in listSpikesRight)
+                {
+                    s.X = theOcean.Width;
+                    s.Y = placesForSpikes[n] * spikeSize;
+                    s.Location = new Point(s.X, s.Y);
+                    theOcean.Controls.Add(s);
+                    n++;
+                }
+            }
+           
+        }
 
-		private void Spikes_hide()
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				if (leftSide == true)
-				{
-					foreach (SpikeLeft s in listSpikesLeft)
-					{
-						s.X -= 3;
-						s.Location = new Point(s.X, s.Y);
-					}
-				}
-				else if (leftSide == false)
-				{
-					foreach (SpikeRight s in listSpikesRight)
-					{
-						s.X += 3;
-						s.Location = new Point(s.X, s.Y);
-					}
-				}
-				theOcean.Refresh();
-			}
-		}
+       
 
-		private void Spikes_spreading()
-		{
-			Spikes_hide();
-			Ursula_hide();
-			NoRepeatingSpikesPosition();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            point = 0;
+            oxygen_progers.Value = 100;
+            oxygen_label.Text = Convert.ToString(point);
+            playAgainButton.Visible = false;
+            gameOverLabel.Visible = false;
+            newGame = true;
 
-			if (leftSide == false) { leftSide = true; }
-			else if (leftSide == true) { leftSide = false; }
+        }
+    }
 
-			int n = 0;
-			if (leftSide == true)
-			{
-				foreach (SpikeLeft s in listSpikesLeft)
-				{
-					s.X = 0 - spikeSize;
-					s.Y = placesForSpikes[n] * spikeSize;
-					s.Location = new Point(s.X, s.Y);
-					theOcean.Controls.Add(s);
-					n++;
-				}
-			}
-			else if (leftSide == false)
-			{
-				foreach (SpikeRight s in listSpikesRight)
-				{
-					s.X = theOcean.Width;
-					s.Y = placesForSpikes[n] * spikeSize;
-					s.Location = new Point(s.X, s.Y);
-					theOcean.Controls.Add(s);
-					n++;
-				}
-			}
-			ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
-			ursula.Y = rand.Next(0, theOcean.Height - ursulaSize - spikeSize);
-			ursula.Location = new Point(ursula.X, 0 - ursulaSize);
-
-			theOcean.Refresh();
-			Spikes_show();
-			Ursula_show();
-		}
-
-		private void timerSpikeMove_Tick(object sender, EventArgs e)
-		{
-			Spikes_spreading();
-		}
-	}
+    
 }
