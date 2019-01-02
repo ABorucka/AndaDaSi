@@ -42,6 +42,7 @@
 			// theOcean
 			// 
 			this.theOcean.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+			this.theOcean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.theOcean.Location = new System.Drawing.Point(9, 10);
 			this.theOcean.Margin = new System.Windows.Forms.Padding(2);
 			this.theOcean.Name = "theOcean";

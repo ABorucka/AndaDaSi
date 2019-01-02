@@ -98,6 +98,15 @@ namespace project
         {
             if (move)
             {
+				bool ursulaFromLeft = (marmaid.Right >= ursula.Left) && (marmaid.Right <= ursula.Right);
+				bool ursulaFromRight = (marmaid.Left >= ursula.Left) && (marmaid.Left <= ursula.Right);
+				bool ursulaFromTop = (marmaid.Bottom >= ursula.Bottom) && (marmaid.Bottom <= ursula.Top);
+				bool ursulaFromBottom = (marmaid.Top >= ursula.Bottom) && (marmaid.Top <= ursula.Top);
+				if (ursulaFromLeft || ursulaFromRight || ursulaFromBottom || ursulaFromTop)
+				{
+					marmaid.BackColor = Color.Red;
+				}
+
                 if ((theOcean.Width <= (marmaid.Right) || (marmaid.Left) <= 0))
                 {
                     marmaid.Vx *= -1;

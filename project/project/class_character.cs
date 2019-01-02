@@ -10,7 +10,7 @@ namespace project
 {
     
     class class_character : PictureBox
-    {
+	{
         private double vx = 2;
         private double vy = 3;
        // private Bitmap bitmap;
@@ -64,16 +64,22 @@ namespace project
         public class_character(Image character)
         {
             this.Size = new Size(70, 50);
-            this.Image = character;
-            this.SizeMode = PictureBoxSizeMode.Zoom;
-            this.Image.RotateFlip(RotateFlipType.Rotate270FlipX);
-        }
+
+			//this.BackgroundImage = character;
+			//this.BackgroundImageLayout = ImageLayout.Zoom;
+			//this.BackgroundImage.RotateFlip(RotateFlipType.Rotate270FlipX);
+
+			this.Image = character;
+			this.SizeMode = PictureBoxSizeMode.Zoom;
+			this.Image.RotateFlip(RotateFlipType.Rotate270FlipX);
+			this.BackColor = Color.Transparent;
+		}
 
         public void rotate180()
         {
-            Image tmp= this.Image;
+			Image tmp = this.Image;
             tmp.RotateFlip(RotateFlipType.Rotate180FlipNone);
             this.Image = tmp;
-        }
+		}
     }
 }

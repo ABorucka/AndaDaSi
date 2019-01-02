@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buble.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="choose_mermaid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -66,10 +69,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shark.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SpikeLeft.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SpikeRight.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TransparentPicture.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Ursula.cs">
@@ -127,6 +136,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Ursula.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\babel.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buble.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
