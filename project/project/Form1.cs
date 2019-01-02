@@ -27,6 +27,10 @@ namespace project
 		List<SpikeRight> listSpikesRight = new List<SpikeRight>();
 		List<SpikeLeft> listSpikesLeft = new List<SpikeLeft>();
 		Ursula ursula = new Ursula();
+        Buble bubble = new Buble();
+        Shark shark = new Shark();
+
+
 		public const int spikeSize = 30;
 		public const int ursulaSize = 100;
 		public const int placeForSpikes = 15;
@@ -34,7 +38,8 @@ namespace project
 		int[] placesForSpikes = new int[numberOfSpikes];
 		bool leftSide;
 		bool go;
-        int ursulaTmpY = 0;
+        int sharkTmpY = 0;
+        int sharkRand = 0;
         int ursulaRand = 0;
 
 		public UnderTheSea(Image character_image)
@@ -43,6 +48,10 @@ namespace project
             marmaid = new class_character(character_image);
             marmaid.Location = new Point(theOcean.Width/2-25, theOcean.Height/2-35);
             theOcean.Controls.Add(marmaid);
+            theOcean.Controls.Add(bubble);
+            theOcean.Controls.Add(shark);
+            bubble.Visible = false;
+            shark.Visible = false;
 
             timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = true;
@@ -145,7 +154,7 @@ namespace project
                 if (ursulaFromLeft || ursulaFromRight || ursulaFromBottom || ursulaFromTop)
                 {
                     marmaid.BackColor = Color.Red;
-                    ursula.BackColor = Color.AliceBlue;
+                    //ursula.BackColor = Color.AliceBlue;
                 }
                 if (impulsTime != 0)
                 {
@@ -153,20 +162,44 @@ namespace project
                     marmaid.Vy++;
                 }
 /*Random - if Ursula appear in the ocean*/
-                if (ursulaRand == 0 && rand.Next(0,2)<0.0001 )
+                if (sharkRand == 0 && rand.Next(0,100) < 2 )
                 {
-                    ursulaTmpY = 0;
-                    ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
-                    ursulaRand = 200;
-                    //ursula.BackColor = Color.FromArgb(90, rand.Next(0,200), rand.Next(0, 200), rand.Next(0, 200));
+                    sharkTmpY = 0;
+                    shark.X = rand.Next(spikeSize, theOcean.Width - shark.Width - spikeSize);
+                    sharkRand = 200;
+                    shark.Visible = true;
+                    marmaid.BackColor = Color.Transparent;
                 }
 
-                if(ursulaRand>0 )
+                if (ursulaRand == 0 && rand.Next(0, 100) < 2)
                 {
-                    Ursula_down(ursulaTmpY);
-                    ursulaTmpY += (theOcean.Height / 199);
-                    ursulaRand--;
+                    ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
+                    ursula.Y = rand.Next(0, theOcean.Height - ursulaSize - spikeSize);
+                    ursula.Location = new Point(ursula.X, ursula.Y);
+                    ursulaRand=150;
+                    ursula.Visible = true;
                 }
+
+                if (rand.Next(0, 2) < 0.001 && bubble.Visible==false)
+                {
+                    bubble.X = rand.Next(spikeSize, theOcean.Width - bubble.Width - spikeSize);
+                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - spikeSize);
+                    bubble.Visible = true;
+                    bubble.Location = new Point(bubble.X, bubble.Y);
+                }
+
+                if (sharkRand>0 )
+                {
+                    Shark_down(sharkTmpY);
+                    sharkTmpY += (theOcean.Height / 150);
+                    sharkRand--;
+                }
+                if (ursulaRand > 0)
+                    ursulaRand--;
+                else
+                    ursula.Visible = false;
+
+                
                    
             }
         }
@@ -237,10 +270,10 @@ namespace project
         }
 
        
-        private void Ursula_down(int tmpY)
+        private void Shark_down(int tmpY)
         {
             theOcean.Refresh();
-            ursula.Location = new Point(ursula.X, tmpY);
+            shark.Location = new Point(shark.X, tmpY);
         }
 
         private void Spikes_hide()
@@ -304,7 +337,7 @@ namespace project
         {
             point = 0;
             oxygen_progers.Value = 100;
-            oxygen_label.Text = Convert.ToString(point);
+            points_display.Text = Convert.ToString(point);
             playAgainButton.Visible = false;
             gameOverLabel.Visible = false;
             newGame = true;

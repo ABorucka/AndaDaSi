@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace project
 {
-	class Buble : System.Windows.Forms.PictureBox
+	class Buble : TransparentPicture
 	{
 		private int x;
 		private int y;
 
 		public Buble()
 		{
-			this.Image = project.Properties.Resources.buble;
+			this.Image = Properties.Resources.buble;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
 			this.Size = new Size(30, 30);
 		}

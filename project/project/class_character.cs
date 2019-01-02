@@ -9,35 +9,11 @@ using System.Windows.Forms;
 namespace project
 {
     
-    class class_character : PictureBox
+    class class_character : TransparentPicture
 	{
         private double vx = 2;
         private double vy = 3;
-       // private Bitmap bitmap;
-       // private int control = 0;
-       // private bool alive = true;
-       /* public int Control
-        {
-            get
-            {
-                return control;
-            }
-            set
-            {
-                control = value;
-            }
-        }
-        public bool Alive
-        {
-            get
-            {
-                return alive;
-            }
-            set
-            {
-                alive = value;
-            }
-        }*/
+       
         public double Vx
         {
             get

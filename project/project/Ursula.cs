@@ -17,7 +17,7 @@ namespace project
 		{
 			this.Image = project.Properties.Resources.Ursula;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Size = new Size(100, 100);
+			this.Size = new Size(80, 80);
 		}
 
 		public int X

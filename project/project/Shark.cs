@@ -17,7 +17,7 @@ namespace project
 		{
 			this.Image = project.Properties.Resources.shark;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Size = new Size(30, 30);
+			this.Size = new Size(100, 100);
 		}
 
 		public int X
