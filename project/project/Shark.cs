@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace project
 {
-	class Shark : System.Windows.Forms.PictureBox
+	class Shark : TransparentPicture
 	{
 		private int x;
 		private int y;
@@ -17,8 +17,9 @@ namespace project
 		{
 			this.Image = project.Properties.Resources.shark;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Size = new Size(100, 100);
-		}
+			this.Size = new Size(80, 80);
+            this.BackColor = Color.Transparent;
+        }
 
 		public int X
 		{

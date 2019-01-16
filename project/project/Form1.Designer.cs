@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.theOcean = new System.Windows.Forms.Panel();
+            this.playAgainButton = new System.Windows.Forms.Button();
+            this.gameOverLabel = new System.Windows.Forms.Label();
             this.timerMarmaidMove = new System.Windows.Forms.Timer(this.components);
             this.oxygen_label = new System.Windows.Forms.Label();
             this.oxygen_progers = new System.Windows.Forms.ProgressBar();
@@ -37,14 +39,13 @@
             this.points_display = new System.Windows.Forms.Label();
             this.timerOxygen = new System.Windows.Forms.Timer(this.components);
             this.timerSpikeMove = new System.Windows.Forms.Timer(this.components);
-            this.gameOverLabel = new System.Windows.Forms.Label();
-            this.playAgainButton = new System.Windows.Forms.Button();
             this.theOcean.SuspendLayout();
             this.SuspendLayout();
             // 
             // theOcean
             // 
-            this.theOcean.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.theOcean.BackColor = System.Drawing.Color.PowderBlue;
+            this.theOcean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.theOcean.Controls.Add(this.playAgainButton);
             this.theOcean.Controls.Add(this.gameOverLabel);
             this.theOcean.Location = new System.Drawing.Point(12, 12);
@@ -54,6 +55,29 @@
             this.theOcean.TabIndex = 0;
             this.theOcean.Paint += new System.Windows.Forms.PaintEventHandler(this.theOcean_Paint);
             this.theOcean.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MoveClick);
+            // 
+            // playAgainButton
+            // 
+            this.playAgainButton.BackColor = System.Drawing.Color.LightPink;
+            this.playAgainButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.playAgainButton.Location = new System.Drawing.Point(282, 293);
+            this.playAgainButton.Name = "playAgainButton";
+            this.playAgainButton.Size = new System.Drawing.Size(216, 40);
+            this.playAgainButton.TabIndex = 6;
+            this.playAgainButton.Text = "Play again!";
+            this.playAgainButton.UseVisualStyleBackColor = false;
+            this.playAgainButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // gameOverLabel
+            // 
+            this.gameOverLabel.AutoSize = true;
+            this.gameOverLabel.BackColor = System.Drawing.Color.LightCoral;
+            this.gameOverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.gameOverLabel.Location = new System.Drawing.Point(275, 217);
+            this.gameOverLabel.Name = "gameOverLabel";
+            this.gameOverLabel.Size = new System.Drawing.Size(223, 39);
+            this.gameOverLabel.TabIndex = 5;
+            this.gameOverLabel.Text = "GAME OVER";
             // 
             // oxygen_label
             // 
@@ -90,28 +114,6 @@
             this.points_display.Size = new System.Drawing.Size(123, 23);
             this.points_display.TabIndex = 4;
             this.points_display.Text = "0";
-            // 
-            // gameOverLabel
-            // 
-            this.gameOverLabel.AutoSize = true;
-            this.gameOverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.gameOverLabel.Location = new System.Drawing.Point(275, 217);
-            this.gameOverLabel.Name = "gameOverLabel";
-            this.gameOverLabel.Size = new System.Drawing.Size(223, 39);
-            this.gameOverLabel.TabIndex = 5;
-            this.gameOverLabel.Text = "GAME OVER";
-            // 
-            // playAgainButton
-            // 
-            this.playAgainButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.playAgainButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.playAgainButton.Location = new System.Drawing.Point(282, 293);
-            this.playAgainButton.Name = "playAgainButton";
-            this.playAgainButton.Size = new System.Drawing.Size(216, 40);
-            this.playAgainButton.TabIndex = 6;
-            this.playAgainButton.Text = "Play again!";
-            this.playAgainButton.UseVisualStyleBackColor = false;
-            this.playAgainButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // UnderTheSea
             // 

@@ -12,7 +12,7 @@ namespace project
     class class_character : TransparentPicture
 	{
         private double vx = 2;
-        private double vy = 3;
+        private double vy = 5;
        
         public double Vx
         {
@@ -37,15 +37,14 @@ namespace project
             }
         }
 
-        public class_character(Image character)
+        public class_character(int character)
         {
             this.Size = new Size(70, 50);
 
-			//this.BackgroundImage = character;
-			//this.BackgroundImageLayout = ImageLayout.Zoom;
-			//this.BackgroundImage.RotateFlip(RotateFlipType.Rotate270FlipX);
-
-			this.Image = character;
+            if (character == 1)
+                this.Image = Properties.Resources.blond_men;
+            else
+                this.Image = Properties.Resources.girl_brown;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
 			this.Image.RotateFlip(RotateFlipType.Rotate270FlipX);
 			this.BackColor = Color.Transparent;

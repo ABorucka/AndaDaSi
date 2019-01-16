@@ -24,25 +24,23 @@ namespace project
         bool newGame = true;
 
         Random rand = new Random();
-		List<SpikeRight> listSpikesRight = new List<SpikeRight>();
-		List<SpikeLeft> listSpikesLeft = new List<SpikeLeft>();
 		Ursula ursula = new Ursula();
         Buble bubble = new Buble();
         Shark shark = new Shark();
+        Spikes spikes = new Spikes();
 
-
-		public const int spikeSize = 30;
+//		public const int spikeSize = 30;
 		public const int ursulaSize = 100;
-		public const int placeForSpikes = 15;
+/*		public const int placeForSpikes = 15;
 		public const int numberOfSpikes = 5;
 		int[] placesForSpikes = new int[numberOfSpikes];
 		bool leftSide;
-		bool go;
+		bool go;*/
         int sharkTmpY = 0;
         int sharkRand = 0;
         int ursulaRand = 0;
 
-		public UnderTheSea(Image character_image)
+		public UnderTheSea(int character_image)
         {
             InitializeComponent();
             marmaid = new class_character(character_image);
@@ -50,8 +48,11 @@ namespace project
             theOcean.Controls.Add(marmaid);
             theOcean.Controls.Add(bubble);
             theOcean.Controls.Add(shark);
+            theOcean.Controls.Add(ursula);
+            ursula.Visible = false;
             bubble.Visible = false;
             shark.Visible = false;
+            //shark.
 
             timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = true;
@@ -66,7 +67,7 @@ namespace project
 
 
         }
-
+/*
 		private void NoRepeatingSpikesPosition()
 		{
 			for (int i = 0; i < numberOfSpikes; i++)
@@ -111,7 +112,7 @@ namespace project
            
             ursula.Location = new Point(theOcean.Height, theOcean.Height);
 			theOcean.Controls.Add(ursula);
-		}
+		}*/
 
 		private void TimerMove_Tick(object sender, EventArgs e)
         {
@@ -121,14 +122,20 @@ namespace project
                 if (obstackles>0)
                 {
                     if (obstackles < 11 && obstackles > 5)
-                        Spikes_hide();
+                    {
+                        spikes.Spikes_hide();
+                       // theOcean.Refresh();
+                    }
                     else if (obstackles < 6)
-                        Spikes_show();
+                    {
+                        spikes.Spikes_show();
+                       // theOcean.Refresh();
+                    }
                       
                     if (obstackles == 6)
                     {
-                        NoRepeatingSpikesPosition();
-                        Spikes_spreading();
+                        spikes.NoRepeatingSpikesPosition();
+                        spikes.Spikes_spreading(theOcean);
                     }
                     obstackles--;
                 }
@@ -145,45 +152,69 @@ namespace project
                     
                 }
                 marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), marmaid.Top + Convert.ToInt32(marmaid.Vy));
-
-/* Collision with Ursula */
-                bool ursulaFromLeft = (marmaid.Right >= ursula.Left) && (marmaid.Right <= ursula.Right);
-                bool ursulaFromRight = (marmaid.Left >= ursula.Left) && (marmaid.Left <= ursula.Right);
-                bool ursulaFromTop = (marmaid.Bottom >= ursula.Bottom) && (marmaid.Bottom <= ursula.Top);
-                bool ursulaFromBottom = (marmaid.Top >= ursula.Bottom) && (marmaid.Top <= ursula.Top);
-                if (ursulaFromLeft || ursulaFromRight || ursulaFromBottom || ursulaFromTop)
+                //theOcean.Refresh();
+/* Collision with Ursula, bubble and shark */
+                if (Collision(ursula))
                 {
-                    marmaid.BackColor = Color.Red;
-                    //ursula.BackColor = Color.AliceBlue;
+                      //  marmaid.BackColor = Color.Red;
+                       // ursula.BackColor = Color.AliceBlue;
+                    oxygen_progers.Value -= oxygen_progers.Value > 10 ? 10 : oxygen_progers.Value;
+                    ursula.Visible = false;   
                 }
+                if(Collision(bubble))
+                {
+                    oxygen_progers.Value += 100-oxygen_progers.Value > 10 ? 10 : 100-oxygen_progers.Value;
+                    bubble.Visible = false;
+                }
+
+                if(Collision(shark))
+                {
+                    move = false;
+                    timerOxygen.Enabled = false;
+                    timerOxygen.Stop();
+                    gameOverLabel.Visible = true;
+                    playAgainButton.Visible = true;
+                    newGame = false;
+                    shark.BackColor = Color.Aquamarine;
+                    marmaid.BackColor = Color.PaleGreen;
+                }
+
                 if (impulsTime != 0)
                 {
                     impulsTime--;
                     marmaid.Vy++;
                 }
-/*Random - if Ursula appear in the ocean*/
-                if (sharkRand == 0 && rand.Next(0,100) < 2 )
+                
+
+
+                /*Random - if Ursula, shark or bubble appear in the ocean*/
+                if (sharkRand == 0 && rand.Next(0,100) < point*0.0001 )
                 {
+                    shark.X = rand.Next(2*spikes.SpikeSize, theOcean.Width - shark.Width - 2*spikes.SpikeSize);
                     sharkTmpY = 0;
-                    shark.X = rand.Next(spikeSize, theOcean.Width - shark.Width - spikeSize);
-                    sharkRand = 200;
+                    sharkRand = 300;
                     shark.Visible = true;
                     marmaid.BackColor = Color.Transparent;
                 }
 
-                if (ursulaRand == 0 && rand.Next(0, 100) < 2)
+                if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
                 {
-                    ursula.X = rand.Next(spikeSize, theOcean.Width - ursulaSize - spikeSize);
-                    ursula.Y = rand.Next(0, theOcean.Height - ursulaSize - spikeSize);
-                    ursula.Location = new Point(ursula.X, ursula.Y);
-                    ursulaRand=150;
-                    ursula.Visible = true;
+                    int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursulaSize - spikes.SpikeSize);
+                    int tmpY = rand.Next(0, theOcean.Height - ursulaSize - spikes.SpikeSize);
+                    if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
+                    {
+                        ursula.X = tmpX;
+                        ursula.Y = tmpY;
+                        ursula.Location = new Point(ursula.X, ursula.Y);
+                        ursulaRand = 100;
+                        ursula.Visible = true;
+                    }
                 }
 
                 if (rand.Next(0, 2) < 0.001 && bubble.Visible==false)
                 {
-                    bubble.X = rand.Next(spikeSize, theOcean.Width - bubble.Width - spikeSize);
-                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - spikeSize);
+                    bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - spikes.SpikeSize);
                     bubble.Visible = true;
                     bubble.Location = new Point(bubble.X, bubble.Y);
                 }
@@ -191,7 +222,7 @@ namespace project
                 if (sharkRand>0 )
                 {
                     Shark_down(sharkTmpY);
-                    sharkTmpY += (theOcean.Height / 150);
+                    sharkTmpY += (theOcean.Height / 200);
                     sharkRand--;
                 }
                 if (ursulaRand > 0)
@@ -206,20 +237,23 @@ namespace project
 /* Init spikes and Ursula */
 		private void UnderTheSea_Load(object sender, EventArgs e)
 		{
-			timerSpikeMove.Enabled = true;
-			NoRepeatingSpikesPosition();
-			StartListOfSpikes();
-			leftSide = false;
+			//timerSpikeMove.Enabled = true;
+            spikes.NoRepeatingSpikesPosition();
+			//NoRepeatingSpikesPosition();
+			spikes.StartListOfSpikes(theOcean);
+           // StartListOfSpikes();
+			//leftSide = false;
 		}
 /* Determine hight of the ocean */
 		private void theOcean_Paint(object sender, PaintEventArgs e)
 		{
-			theOcean.Height = spikeSize * placeForSpikes;
+			theOcean.Height = spikes.SpikeSize * spikes.PlaceForSpikes;
+           // theOcean.BackgroundImage = Properties.Resources.tlo;
 		}
 /* Oxygen is running out */
 		private void TimerOxygen_Tick(object sender, EventArgs e)
         {
-            oxygen_progers.Value--;
+            
             if (oxygen_progers.Value==0)
             {
                 move = false;
@@ -229,6 +263,7 @@ namespace project
                 playAgainButton.Visible = true;
                 newGame = false;
             }
+            else { oxygen_progers.Value--; }
         }
 /* Watching mouse click - bouncing the character */
         private void panel1_MoveClick(object sender, MouseEventArgs e)
@@ -236,15 +271,16 @@ namespace project
             if (newGame)
             {
                 move = true;
-                marmaid.Vy = -7;
-                impulsTime = 8;
+                double velocity = -9;
+                marmaid.Vy = velocity;
+                impulsTime = Convert.ToInt16(Math.Abs(velocity))+4;
                 timerOxygen.Enabled = true;
                 timerOxygen.Start();
                 
             }
         }
 
-		
+		/*
 
 
         private void Spikes_show()
@@ -267,15 +303,15 @@ namespace project
                 }
                 theOcean.Refresh();
             
-        }
+        }*/
 
        
         private void Shark_down(int tmpY)
         {
-            theOcean.Refresh();
+           // theOcean.Refresh();
             shark.Location = new Point(shark.X, tmpY);
         }
-
+/*
         private void Spikes_hide()
         {
             
@@ -297,9 +333,9 @@ namespace project
                 }
                 theOcean.Refresh();
             
-        }
+        }*/
 /* New places for spikes */
-        public void Spikes_spreading()
+  /*      public void Spikes_spreading()
         {
 
             if (leftSide == false) { leftSide = true; }
@@ -330,8 +366,16 @@ namespace project
             }
            
         }
-
-       
+        */
+       private bool Collision(PictureBox pictureBox)
+       {
+            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
+            bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
+            bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
+            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
+            //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
+            return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
+       }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -341,6 +385,10 @@ namespace project
             playAgainButton.Visible = false;
             gameOverLabel.Visible = false;
             newGame = true;
+            marmaid.Location = new Point(theOcean.Width / 2 - 25, theOcean.Height / 2 - 35);
+            ursula.Visible = false;
+            shark.Visible = false;
+
 
         }
     }

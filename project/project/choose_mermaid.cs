@@ -10,12 +10,19 @@ namespace project
 {
     class choose_mermaid : PictureBox
     {
-        public choose_mermaid(Bitmap character)
+        private int id;
+
+        public choose_mermaid(Bitmap character, int ID)
         {
             this.Size = new Size(100, 124);
             this.Image = character;
             this.SizeMode = PictureBoxSizeMode.Zoom;
+            id = ID;
             
+        }
+        public int Id
+        {
+            get { return id; }
         }
     }
 }

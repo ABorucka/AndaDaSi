@@ -18,6 +18,7 @@ namespace project
 			this.Image = project.Properties.Resources.spikeLeft;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
 			this.Size = new Size(30, 30);
+            this.BackColor = Color.Transparent;
 		}
 
 		public int X

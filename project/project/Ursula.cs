@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace project
 {
-	class Ursula : System.Windows.Forms.PictureBox
+	class Ursula : TransparentPicture
 	{
 		private int x;
 		private int y;
@@ -18,7 +18,8 @@ namespace project
 			this.Image = project.Properties.Resources.Ursula;
 			this.SizeMode = PictureBoxSizeMode.Zoom;
 			this.Size = new Size(80, 80);
-		}
+            this.BackColor = Color.Transparent;
+        }
 
 		public int X
 		{

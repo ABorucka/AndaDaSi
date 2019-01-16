@@ -61,6 +61,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Open_form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,7 @@
     <Compile Include="SpikeRight.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Spikes.cs" />
     <Compile Include="TransparentPicture.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -86,6 +93,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Open_form.resx">
       <DependentUpon>Open_form.cs</DependentUpon>
@@ -145,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\buble.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tlo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
