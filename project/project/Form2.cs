@@ -19,7 +19,7 @@ namespace project
             instruction.AutoSize = true;
             instruction.Text = "Move your character by clicking a mouse button. " +
                 "Avoid obstackles and collect bubles with oxygen. Remember: your oxygen is runing out and Urslua steals it from you. " +
-                "What is more shark and spikes can kill you. Be careful and have fun!";
+                "What is more, shark and spikes can kill you. Be careful and have fun!";
             instrukcja.MaximumSize = new Size(250, 0);
             instrukcja.AutoSize = true;
             instrukcja.Text = "Pływaj swoją syreną naciskając przycisk myszki. Unkiaj przeszkód i zbieraj bąbelki z powietrzem. "+

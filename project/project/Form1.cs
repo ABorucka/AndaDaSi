@@ -369,13 +369,43 @@ namespace project
         */
        private bool Collision(PictureBox pictureBox)
        {
-            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
+			/*bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
             bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
             bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
-            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
-            //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
-            return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
-       }
+            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);*/
+			//  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
+			// return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
+			
+			return DistanceFromCircle(pictureBox);
+		}
+
+		private bool DistanceFromCircle(PictureBox circle)
+		{
+			int elipseCenterX = marmaid.Location.X + marmaid.Width/2;
+			int elipseCenterY = marmaid.Location.Y + marmaid.Height/2;
+			int circleCenterX = circle.Location.X + circle.Width/2;
+			int circleCenterY = circle.Location.Y + circle.Height/2;
+
+			double radius = circle.Height / 2;
+			double majorAxis = marmaid.Width / 2;
+			double minorAxis = marmaid.Height / 2;
+			double focalDistance = Math.Sqrt(Math.Pow(majorAxis,2) - Math.Pow(minorAxis, 2));
+			double distanceToCenter = Math.Sqrt(Math.Pow((elipseCenterX - (int)focalDistance),2) 
+				+ Math.Pow((elipseCenterY - circleCenterY),2));
+			double distanceToFoci = Math.Sqrt(Math.Pow((elipseCenterX - circleCenterX),2)
+				+ Math.Pow((elipseCenterY - circleCenterY),2));
+			double distanceFromBord = distanceToCenter - radius;
+
+			double cos = (Math.Pow(distanceToCenter,2) + Math.Pow(focalDistance,2) - Math.Pow(distanceToFoci,2))
+				/ (2 * distanceToCenter * focalDistance);
+
+			double R1 = Math.Sqrt(Math.Pow(focalDistance,2) + Math.Pow(distanceFromBord, 2)
+				- (2 * distanceFromBord * focalDistance * cos));
+			double R2 = Math.Sqrt(Math.Pow(focalDistance, 2) + Math.Pow(distanceFromBord, 2)
+				+ (2 * distanceFromBord * focalDistance * cos));
+
+			return (R1 + R2 <= marmaid.Width);
+		}
 
         private void button1_Click(object sender, EventArgs e)
         {
