@@ -39,13 +39,19 @@
             this.points_display = new System.Windows.Forms.Label();
             this.timerOxygen = new System.Windows.Forms.Timer(this.components);
             this.timerSpikeMove = new System.Windows.Forms.Timer(this.components);
+            this.weed = new System.Windows.Forms.PictureBox();
+            this.sea = new System.Windows.Forms.PictureBox();
             this.theOcean.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sea)).BeginInit();
             this.SuspendLayout();
             // 
             // theOcean
             // 
             this.theOcean.BackColor = System.Drawing.Color.PowderBlue;
             this.theOcean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.theOcean.Controls.Add(this.weed);
+            this.theOcean.Controls.Add(this.sea);
             this.theOcean.Controls.Add(this.playAgainButton);
             this.theOcean.Controls.Add(this.gameOverLabel);
             this.theOcean.Location = new System.Drawing.Point(12, 12);
@@ -115,6 +121,26 @@
             this.points_display.TabIndex = 4;
             this.points_display.Text = "0";
             // 
+            // weed
+            // 
+            this.weed.BackgroundImage = global::project.Properties.Resources.seaweed;
+            this.weed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.weed.Location = new System.Drawing.Point(414, 514);
+            this.weed.Name = "weed";
+            this.weed.Size = new System.Drawing.Size(385, 50);
+            this.weed.TabIndex = 8;
+            this.weed.TabStop = false;
+            // 
+            // sea
+            // 
+            this.sea.BackgroundImage = global::project.Properties.Resources.seaweed;
+            this.sea.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sea.Location = new System.Drawing.Point(0, 514);
+            this.sea.Name = "sea";
+            this.sea.Size = new System.Drawing.Size(413, 50);
+            this.sea.TabIndex = 7;
+            this.sea.TabStop = false;
+            // 
             // UnderTheSea
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -131,6 +157,8 @@
             this.Load += new System.EventHandler(this.UnderTheSea_Load);
             this.theOcean.ResumeLayout(false);
             this.theOcean.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sea)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,6 +176,8 @@
 		private System.Windows.Forms.Timer timerSpikeMove;
         private System.Windows.Forms.Label gameOverLabel;
         private System.Windows.Forms.Button playAgainButton;
+        private System.Windows.Forms.PictureBox sea;
+        private System.Windows.Forms.PictureBox weed;
     }
 }
 

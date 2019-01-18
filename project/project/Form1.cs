@@ -64,6 +64,8 @@ namespace project
 
             gameOverLabel.Visible = false;
             playAgainButton.Visible = false;
+            sea.SendToBack();
+            weed.SendToBack();
 
 
         }
@@ -167,7 +169,9 @@ namespace project
                     bubble.Visible = false;
                 }
 
-                if(Collision(shark))
+
+
+                if(Collision(shark) || marmaid.Bottom>(sea.Top+sea.Height/2)/*Collision(shark)*/)
                 {
                     move = false;
                     timerOxygen.Enabled = false;
@@ -175,8 +179,8 @@ namespace project
                     gameOverLabel.Visible = true;
                     playAgainButton.Visible = true;
                     newGame = false;
-                    shark.BackColor = Color.Aquamarine;
-                    marmaid.BackColor = Color.PaleGreen;
+                    //shark.BackColor = Color.Aquamarine;
+                    //marmaid.BackColor = Color.PaleGreen;
                 }
 
                 if (impulsTime != 0)
@@ -200,7 +204,7 @@ namespace project
                 if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
                 {
                     int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursulaSize - spikes.SpikeSize);
-                    int tmpY = rand.Next(0, theOcean.Height - ursulaSize - spikes.SpikeSize);
+                    int tmpY = rand.Next(sea.Height, theOcean.Height - ursulaSize - spikes.SpikeSize);
                     if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
                     {
                         ursula.X = tmpX;
@@ -214,7 +218,7 @@ namespace project
                 if (rand.Next(0, 2) < 0.001 && bubble.Visible==false)
                 {
                     bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - spikes.SpikeSize);
+                    bubble.Y = rand.Next(sea.Height, theOcean.Height - bubble.Width - spikes.SpikeSize);
                     bubble.Visible = true;
                     bubble.Location = new Point(bubble.X, bubble.Y);
                 }
@@ -247,7 +251,7 @@ namespace project
 /* Determine hight of the ocean */
 		private void theOcean_Paint(object sender, PaintEventArgs e)
 		{
-			theOcean.Height = spikes.SpikeSize * spikes.PlaceForSpikes;
+			theOcean.Height = spikes.SpikeSize * spikes.PlaceForSpikes+weed.Height;
            // theOcean.BackgroundImage = Properties.Resources.tlo;
 		}
 /* Oxygen is running out */
@@ -369,14 +373,14 @@ namespace project
         */
        private bool Collision(PictureBox pictureBox)
        {
-			/*bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
+            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
             bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
             bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
-            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);*/
-			//  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
-			// return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
-			
-			return DistanceFromCircle(pictureBox);
+            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
+            //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
+             return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
+            
+			//return DistanceFromCircle(pictureBox);
 		}
 
 		private bool DistanceFromCircle(PictureBox circle)

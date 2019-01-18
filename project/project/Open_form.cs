@@ -22,7 +22,7 @@ namespace project
 
             choose_mermaid m1 = new choose_mermaid(Properties.Resources.blond_men, 1);
             m1.Location = new Point(this.Width / 3 - 50, this.Height / 2 - 62);
-            m1.BackColor = Color.FromArgb(90, 0, 0, 0); ;
+            m1.BackColor = Color.FromArgb(90, 0, 0, 0); 
             choose_mermaid m2 = new choose_mermaid(Properties.Resources.girl_brown, 2);
             m2.Location = new Point(this.Width*2 / 3 - 50, this.Height / 2 - 62);
             m2.BackColor = Color.Transparent;

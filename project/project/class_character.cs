@@ -48,6 +48,7 @@ namespace project
 			this.SizeMode = PictureBoxSizeMode.Zoom;
 			this.Image.RotateFlip(RotateFlipType.Rotate270FlipX);
 			this.BackColor = Color.Transparent;
+            this.BringToFront();
 		}
 
         public void rotate180()

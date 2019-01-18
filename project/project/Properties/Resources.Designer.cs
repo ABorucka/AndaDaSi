@@ -93,6 +93,16 @@ namespace project.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap seaweed {
+            get {
+                object obj = ResourceManager.GetObject("seaweed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap shark {
             get {
                 object obj = ResourceManager.GetObject("shark", resourceCulture);
@@ -146,6 +156,16 @@ namespace project.Properties {
         internal static System.Drawing.Bitmap Ursula {
             get {
                 object obj = ResourceManager.GetObject("Ursula", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap yyy__2_ {
+            get {
+                object obj = ResourceManager.GetObject("yyy__2_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
