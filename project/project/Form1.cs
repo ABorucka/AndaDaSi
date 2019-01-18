@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
-
+using System.Media;
 
 namespace project
 {
@@ -22,10 +22,14 @@ namespace project
         bool move = false;
         int obstackles = 0;
         bool newGame = true;
-
+        //System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
+        SoundPlayer mainSong = new SoundPlayer("C:\\Users\\Agnieszka\\Downloads\\under.wav");
+       // SoundPlayer player = new SoundPlayer(s);
+        
         Random rand = new Random();
 		Ursula ursula = new Ursula();
         Buble bubble = new Buble();
+        Buble bubble2 = new Buble();
         Shark shark = new Shark();
         Spikes spikes = new Spikes();
 
@@ -47,10 +51,12 @@ namespace project
             marmaid.Location = new Point(theOcean.Width/2-25, theOcean.Height/2-35);
             theOcean.Controls.Add(marmaid);
             theOcean.Controls.Add(bubble);
+            theOcean.Controls.Add(bubble2);
             theOcean.Controls.Add(shark);
             theOcean.Controls.Add(ursula);
             ursula.Visible = false;
             bubble.Visible = false;
+            bubble2.Visible = false;
             shark.Visible = false;
             //shark.
 
@@ -64,8 +70,8 @@ namespace project
 
             gameOverLabel.Visible = false;
             playAgainButton.Visible = false;
-            sea.SendToBack();
-            weed.SendToBack();
+            //sea.SendToBack();
+            //weed.SendToBack();
 
 
         }
@@ -158,20 +164,31 @@ namespace project
 /* Collision with Ursula, bubble and shark */
                 if (Collision(ursula))
                 {
-                        marmaid.BackColor = Color.Red;
-                        ursula.BackColor = Color.AliceBlue;
+                      //  marmaid.BackColor = Color.Red;
+                       // ursula.BackColor = Color.AliceBlue;
                     oxygen_progers.Value -= oxygen_progers.Value > 10 ? 10 : oxygen_progers.Value;
                     ursula.Visible = false;   
                 }
                 if(Collision(bubble))
                 {
-                    oxygen_progers.Value += 100-oxygen_progers.Value > 10 ? 10 : 100-oxygen_progers.Value;
+                    oxygen_progers.Value += 100-oxygen_progers.Value > 20 ? 20 : 100-oxygen_progers.Value;
                     bubble.Visible = false;
                 }
 
+                if (Collision(bubble2))
+                {
+                    oxygen_progers.Value += 100 - oxygen_progers.Value > 20 ? 20 : 100 - oxygen_progers.Value;
+                    bubble2.Visible = false;
+                }
 
+                if (marmaid.Bottom >= (sea.Top)+sea.Height/5)
+                {
+                    double velocity = -9;
+                    marmaid.Vy = velocity;
+                    impulsTime = Convert.ToInt16(Math.Abs(velocity)) + 4;
+                }
 
-                if(Collision(shark) || marmaid.Bottom>(sea.Top+sea.Height/2)/*Collision(shark)*/)
+                if(Collision(shark)) 
                 {
                     move = false;
                     timerOxygen.Enabled = false;
@@ -179,8 +196,6 @@ namespace project
                     gameOverLabel.Visible = true;
                     playAgainButton.Visible = true;
                     newGame = false;
-                    shark.BackColor = Color.Aquamarine;
-                    marmaid.BackColor = Color.PaleGreen;
                 }
 
                 if (impulsTime != 0)
@@ -195,16 +210,18 @@ namespace project
                 if (sharkRand == 0 && rand.Next(0,100) < point*0.0001 )
                 {
                     shark.X = rand.Next(2*spikes.SpikeSize, theOcean.Width - shark.Width - 2*spikes.SpikeSize);
-                    sharkTmpY = 0;
-                    sharkRand = 300;
-                    shark.Visible = true;
-                    marmaid.BackColor = Color.Transparent;
+                    if (shark.X + shark.Width < ursula.X || shark.X > ursula.X + ursula.Width)
+                    {
+                        sharkTmpY = 0;
+                        sharkRand = 300;
+                        shark.Visible = true;
+                    }
                 }
 
                 if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
                 {
                     int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursulaSize - spikes.SpikeSize);
-                    int tmpY = rand.Next(sea.Height, theOcean.Height - ursulaSize - spikes.SpikeSize);
+                    int tmpY = rand.Next(0, theOcean.Height - ursulaSize - weed.Height);
                     if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
                     {
                         ursula.X = tmpX;
@@ -215,12 +232,19 @@ namespace project
                     }
                 }
 
-                if (rand.Next(0, 2) < 0.001 && bubble.Visible==false)
+                if (bubble.Visible==false)
                 {
                     bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble.Y = rand.Next(sea.Height, theOcean.Height - bubble.Width - spikes.SpikeSize);
+                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - weed.Height);
                     bubble.Visible = true;
                     bubble.Location = new Point(bubble.X, bubble.Y);
+                }
+                if (bubble2.Visible == false)
+                {
+                    bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                    bubble2.Y = rand.Next(0, theOcean.Height - bubble.Width - weed.Height);
+                    bubble2.Visible = true;
+                    bubble2.Location = new Point(bubble2.X, bubble2.Y);
                 }
 
                 if (sharkRand>0 )
@@ -252,7 +276,6 @@ namespace project
 		private void theOcean_Paint(object sender, PaintEventArgs e)
 		{
 			theOcean.Height = spikes.SpikeSize * spikes.PlaceForSpikes+weed.Height;
-           // theOcean.BackgroundImage = Properties.Resources.tlo;
 		}
 /* Oxygen is running out */
 		private void TimerOxygen_Tick(object sender, EventArgs e)
@@ -266,6 +289,7 @@ namespace project
                 gameOverLabel.Visible = true;
                 playAgainButton.Visible = true;
                 newGame = false;
+                mainSong.Stop();
             }
             else { oxygen_progers.Value--; }
         }
@@ -274,13 +298,18 @@ namespace project
         {
             if (newGame)
             {
-                move = true;
+                
                 double velocity = -9;
                 marmaid.Vy = velocity;
                 impulsTime = Convert.ToInt16(Math.Abs(velocity))+4;
-                timerOxygen.Enabled = true;
-                timerOxygen.Start();
-                
+                if (!move)
+                {
+                    move = true;
+                    timerOxygen.Enabled = true;
+                    timerOxygen.Start();
+                    mainSong.Play();
+                }
+
             }
         }
 
@@ -312,7 +341,6 @@ namespace project
        
         private void Shark_down(int tmpY)
         {
-           // theOcean.Refresh();
             shark.Location = new Point(shark.X, tmpY);
         }
 /*
@@ -373,24 +401,24 @@ namespace project
         */
        private bool Collision(PictureBox pictureBox)
        {
-            /*bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
+            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
             bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
             bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
-            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);*/
+            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
             //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
-             //return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
+             return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
             
-			return (DistanceFromCircle(pictureBox) && pictureBox.Visible == true);
+			//return DistanceFromCircle(pictureBox);
 		}
 
-		private bool DistanceFromCircle(PictureBox obstacle)
+		private bool DistanceFromCircle(PictureBox circle)
 		{
-			int marmaidCenterX = marmaid.Location.X + marmaid.Width/2;
-			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
-			int obstacleCenterX = obstacle.Location.X + obstacle.Width/2;
-			int obstacleCenterY = obstacle.Location.Y + obstacle.Height/2;
+			int elipseCenterX = marmaid.Location.X + marmaid.Width/2;
+			int elipseCenterY = marmaid.Location.Y + marmaid.Height/2;
+			int circleCenterX = circle.Location.X + circle.Width/2;
+			int circleCenterY = circle.Location.Y + circle.Height/2;
 
-			/*double radius = circle.Height / 2;
+			double radius = circle.Height / 2;
 			double majorAxis = marmaid.Width / 2;
 			double minorAxis = marmaid.Height / 2;
 			double focalDistance = Math.Sqrt(Math.Pow(majorAxis,2) - Math.Pow(minorAxis, 2));
@@ -406,17 +434,9 @@ namespace project
 			double R1 = Math.Sqrt(Math.Pow(focalDistance,2) + Math.Pow(distanceFromBord, 2)
 				- (2 * distanceFromBord * focalDistance * cos));
 			double R2 = Math.Sqrt(Math.Pow(focalDistance, 2) + Math.Pow(distanceFromBord, 2)
-				+ (2 * distanceFromBord * focalDistance * cos));*/
+				+ (2 * distanceFromBord * focalDistance * cos));
 
-			double R1 = marmaid.Width / 2 - 5;
-			double R2 = obstacle.Width / 2 - 5;
-			double minDistance = R1 + R2;
-
-			double distanceX = Math.Abs(marmaidCenterX - obstacleCenterX);
-			double distanceY = Math.Abs(marmaidCenterY - obstacleCenterY);
-			double distance = Math.Sqrt(Math.Pow(distanceX,2)+Math.Pow(distanceY,2));
-
-			return (distance <= R1 + R2);
+			return (R1 + R2 <= marmaid.Width);
 		}
 
         private void button1_Click(object sender, EventArgs e)
