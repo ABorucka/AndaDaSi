@@ -158,8 +158,8 @@ namespace project
 /* Collision with Ursula, bubble and shark */
                 if (Collision(ursula))
                 {
-                      //  marmaid.BackColor = Color.Red;
-                       // ursula.BackColor = Color.AliceBlue;
+                        marmaid.BackColor = Color.Red;
+                        ursula.BackColor = Color.AliceBlue;
                     oxygen_progers.Value -= oxygen_progers.Value > 10 ? 10 : oxygen_progers.Value;
                     ursula.Visible = false;   
                 }
@@ -179,8 +179,8 @@ namespace project
                     gameOverLabel.Visible = true;
                     playAgainButton.Visible = true;
                     newGame = false;
-                    //shark.BackColor = Color.Aquamarine;
-                    //marmaid.BackColor = Color.PaleGreen;
+                    shark.BackColor = Color.Aquamarine;
+                    marmaid.BackColor = Color.PaleGreen;
                 }
 
                 if (impulsTime != 0)
@@ -373,24 +373,24 @@ namespace project
         */
        private bool Collision(PictureBox pictureBox)
        {
-            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
+            /*bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
             bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
             bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
-            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
+            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);*/
             //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
-             return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
+             //return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
             
-			//return DistanceFromCircle(pictureBox);
+			return (DistanceFromCircle(pictureBox) && pictureBox.Visible == true);
 		}
 
-		private bool DistanceFromCircle(PictureBox circle)
+		private bool DistanceFromCircle(PictureBox obstacle)
 		{
-			int elipseCenterX = marmaid.Location.X + marmaid.Width/2;
-			int elipseCenterY = marmaid.Location.Y + marmaid.Height/2;
-			int circleCenterX = circle.Location.X + circle.Width/2;
-			int circleCenterY = circle.Location.Y + circle.Height/2;
+			int marmaidCenterX = marmaid.Location.X + marmaid.Width/2;
+			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
+			int obstacleCenterX = obstacle.Location.X + obstacle.Width/2;
+			int obstacleCenterY = obstacle.Location.Y + obstacle.Height/2;
 
-			double radius = circle.Height / 2;
+			/*double radius = circle.Height / 2;
 			double majorAxis = marmaid.Width / 2;
 			double minorAxis = marmaid.Height / 2;
 			double focalDistance = Math.Sqrt(Math.Pow(majorAxis,2) - Math.Pow(minorAxis, 2));
@@ -406,9 +406,17 @@ namespace project
 			double R1 = Math.Sqrt(Math.Pow(focalDistance,2) + Math.Pow(distanceFromBord, 2)
 				- (2 * distanceFromBord * focalDistance * cos));
 			double R2 = Math.Sqrt(Math.Pow(focalDistance, 2) + Math.Pow(distanceFromBord, 2)
-				+ (2 * distanceFromBord * focalDistance * cos));
+				+ (2 * distanceFromBord * focalDistance * cos));*/
 
-			return (R1 + R2 <= marmaid.Width);
+			double R1 = marmaid.Width / 2 - 5;
+			double R2 = obstacle.Width / 2 - 5;
+			double minDistance = R1 + R2;
+
+			double distanceX = Math.Abs(marmaidCenterX - obstacleCenterX);
+			double distanceY = Math.Abs(marmaidCenterY - obstacleCenterY);
+			double distance = Math.Sqrt(Math.Pow(distanceX,2)+Math.Pow(distanceY,2));
+
+			return (distance <= R1 + R2);
 		}
 
         private void button1_Click(object sender, EventArgs e)
