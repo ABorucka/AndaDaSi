@@ -23,7 +23,7 @@ namespace project
         int obstackles = 0;
         bool newGame = true;
         //System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-       // SoundPlayer mainSong = new SoundPlayer("C:\\Users\\Agnieszka\\Downloads\\under.wav");
+        SoundPlayer mainSong = new SoundPlayer(Properties.Resources.under);
        // SoundPlayer player = new SoundPlayer(s);
         
         Random rand = new Random();
@@ -310,7 +310,7 @@ namespace project
 					move = true;
 					timerOxygen.Enabled = true;
 					timerOxygen.Start();
-					//mainSong.Play();
+					mainSong.Play();
 				}
 
 			}
