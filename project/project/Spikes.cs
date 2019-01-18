@@ -159,18 +159,22 @@ namespace project
 
         }
 
-		public bool CollisionWithSpikes(PictureBox mermaid)
+		public bool CollisionWithSpikes(PictureBox mermaid, bool isLeft)
 		{
-			int mermaidCenterX = mermaid.Location.X + mermaid.Width / 2;
+			if (isLeft == false)
+			{
+				int mermaidCenterX = mermaid.Location.X + mermaid.Width - mermaid.Height;
+			}
 			int mermaidCenterY = mermaid.Location.Y + mermaid.Height / 2;
+
+			double R1 = spikeSize;
+			double R2 = mermaid.Height / 2 ;
 
 			foreach (SpikeRight s in listSpikesRight)
 			{
 				
 			}
-			//double R1 = spikeSize;
-			//double R2 = obstackle.Width / 2 - difficulty;
-			//double minDistance = R1 + R2;
+			
 
 			//double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
 			//double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);

@@ -443,7 +443,6 @@ namespace project
 
 			double R1 = marmaid.Width / 2 - difficulty;
 			double R2 = obstackle.Width / 2 - difficulty;
-			double minDistance = R1 + R2;
 
 			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
 			double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);
