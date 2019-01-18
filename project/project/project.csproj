@@ -171,5 +171,14 @@
   <ItemGroup>
     <None Include="Resources\under.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gabsssss_andadasi-2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kiss_cut.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\under_cut.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

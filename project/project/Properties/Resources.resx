@@ -151,7 +151,13 @@
   <data name="shark" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="under" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\under.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Gabsssss_andadasi_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gabsssss_andadasi-2.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="kiss_cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kiss_cut.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="under_cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\under_cut.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -81,12 +81,30 @@ namespace project.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Gabsssss_andadasi_2 {
+            get {
+                return ResourceManager.GetStream("Gabsssss_andadasi_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap girl_brown {
             get {
                 object obj = ResourceManager.GetObject("girl_brown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream kiss_cut {
+            get {
+                return ResourceManager.GetStream("kiss_cut", resourceCulture);
             }
         }
         
@@ -143,9 +161,9 @@ namespace project.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream under {
+        internal static System.IO.UnmanagedMemoryStream under_cut {
             get {
-                return ResourceManager.GetStream("under", resourceCulture);
+                return ResourceManager.GetStream("under_cut", resourceCulture);
             }
         }
         

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,8 @@ namespace project
     {
         public int id = 1;
         List<choose_mermaid> mermaids = new List<choose_mermaid>();
+        SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);
+        
         public Open_form()
         {
             InitializeComponent();
@@ -33,6 +36,8 @@ namespace project
                 this.Controls.Add(m);
                 m.MouseClick += new MouseEventHandler(characterClick);
             }
+            menuSong.PlayLooping();
+           
         }
 
        
@@ -57,7 +62,15 @@ namespace project
         private void button1_Click(object sender, EventArgs e)
         {
             UnderTheSea game = new UnderTheSea(id);
+            game.FormClosed += close_game;
+            menuSong.Stop();
             game.ShowDialog();
+            
+        }
+
+        private void close_game (object sender, EventArgs e)
+        {
+            menuSong.PlayLooping();
         }
 
         private void Instruction_Click(object sender, EventArgs e)
@@ -68,10 +81,6 @@ namespace project
 
 
 
-        /*private void mermaid2_Click(object sender, EventArgs e)
-        {
-            Character_image = project.Properties.Resources.girl_brown;
-           
-        }*/
+      
     }
 }
