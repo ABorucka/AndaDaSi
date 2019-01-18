@@ -23,7 +23,7 @@ namespace project
         int obstackles = 0;
         bool newGame = true;
         //System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-        SoundPlayer mainSong = new SoundPlayer("C:\\Users\\Agnieszka\\Downloads\\under.wav");
+       // SoundPlayer mainSong = new SoundPlayer("C:\\Users\\Agnieszka\\Downloads\\under.wav");
        // SoundPlayer player = new SoundPlayer(s);
         
         Random rand = new Random();
@@ -164,8 +164,8 @@ namespace project
 /* Collision with Ursula, bubble and shark */
                 if (Collision(ursula))
                 {
-                      //  marmaid.BackColor = Color.Red;
-                       // ursula.BackColor = Color.AliceBlue;
+                        marmaid.BackColor = Color.Red;
+                        ursula.BackColor = Color.AliceBlue;
                     oxygen_progers.Value -= oxygen_progers.Value > 10 ? 10 : oxygen_progers.Value;
                     ursula.Visible = false;   
                 }
@@ -196,7 +196,10 @@ namespace project
                     gameOverLabel.Visible = true;
                     playAgainButton.Visible = true;
                     newGame = false;
-                }
+
+					marmaid.BackColor = Color.Green;
+					shark.BackColor = Color.AliceBlue;
+				}
 
                 if (impulsTime != 0)
                 {
@@ -242,7 +245,7 @@ namespace project
                 if (bubble2.Visible == false)
                 {
                     bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble2.Y = rand.Next(0, theOcean.Height - bubble.Width - weed.Height);
+                    bubble2.Y = rand.Next(0, theOcean.Height - bubble.Width - 2 * weed.Height);
                     bubble2.Visible = true;
                     bubble2.Location = new Point(bubble2.X, bubble2.Y);
                 }
@@ -289,29 +292,29 @@ namespace project
                 gameOverLabel.Visible = true;
                 playAgainButton.Visible = true;
                 newGame = false;
-                mainSong.Stop();
+               // mainSong.Stop();
             }
             else { oxygen_progers.Value--; }
         }
 /* Watching mouse click - bouncing the character */
-        private void panel1_MoveClick(object sender, MouseEventArgs e)
-        {
-            if (newGame)
-            {
-                
-                double velocity = -9;
-                marmaid.Vy = velocity;
-                impulsTime = Convert.ToInt16(Math.Abs(velocity))+4;
-                if (!move)
-                {
-                    move = true;
-                    timerOxygen.Enabled = true;
-                    timerOxygen.Start();
-                    mainSong.Play();
-                }
+		private void jumpButton_Click(object sender, EventArgs e)
+		{
+			if (newGame)
+			{
 
-            }
-        }
+				double velocity = -9;
+				marmaid.Vy = velocity;
+				impulsTime = Convert.ToInt16(Math.Abs(velocity)) + 4;
+				if (!move)
+				{
+					move = true;
+					timerOxygen.Enabled = true;
+					timerOxygen.Start();
+					//mainSong.Play();
+				}
+
+			}
+		}
 
 		/*
 
@@ -401,24 +404,26 @@ namespace project
         */
        private bool Collision(PictureBox pictureBox)
        {
-            bool objectFromLeft = (marmaid.Right >= pictureBox.Left) && (marmaid.Right <= pictureBox.Right);
-            bool objectFromRight = (marmaid.Left >= pictureBox.Left) && (marmaid.Left <= pictureBox.Right);
-            bool objectFromTop = (marmaid.Bottom >= pictureBox.Top) && (marmaid.Bottom <= pictureBox.Bottom);
-            bool objectFromBottom = (marmaid.Top >= pictureBox.Top) && (marmaid.Top <= pictureBox.Bottom);
-            //  if (marmaid.Bottom >= bubble.Top && b.Bottom <= pad.Bottom + pad.Height / 2 && b.Left + 15 >= pad.Left && b.Left + 15 <= pad.Right && b.Control == 0)
-             return (((objectFromLeft || objectFromRight) && (objectFromBottom || objectFromTop)) && pictureBox.Visible == true);
-            
-			//return DistanceFromCircle(pictureBox);
+			bool isThereaCollision = false;
+			if (pictureBox == bubble || pictureBox == bubble2)
+			{
+				isThereaCollision = DistanceFromObstacle(pictureBox, 0);
+			}
+			else
+			{
+				isThereaCollision = DistanceFromObstacle(pictureBox, 7);
+			}
+			return (isThereaCollision && pictureBox.Visible == true);
 		}
 
-		private bool DistanceFromCircle(PictureBox circle)
+		private bool DistanceFromObstacle(PictureBox obstackle, int difficulty)
 		{
-			int elipseCenterX = marmaid.Location.X + marmaid.Width/2;
-			int elipseCenterY = marmaid.Location.Y + marmaid.Height/2;
-			int circleCenterX = circle.Location.X + circle.Width/2;
-			int circleCenterY = circle.Location.Y + circle.Height/2;
+			int marmaidCenterX = marmaid.Location.X + marmaid.Width/2;
+			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
+			int obstackleCenterX = obstackle.Location.X + obstackle.Width/2;
+			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2;
 
-			double radius = circle.Height / 2;
+			/*double radius = circle.Height / 2;
 			double majorAxis = marmaid.Width / 2;
 			double minorAxis = marmaid.Height / 2;
 			double focalDistance = Math.Sqrt(Math.Pow(majorAxis,2) - Math.Pow(minorAxis, 2));
@@ -434,9 +439,17 @@ namespace project
 			double R1 = Math.Sqrt(Math.Pow(focalDistance,2) + Math.Pow(distanceFromBord, 2)
 				- (2 * distanceFromBord * focalDistance * cos));
 			double R2 = Math.Sqrt(Math.Pow(focalDistance, 2) + Math.Pow(distanceFromBord, 2)
-				+ (2 * distanceFromBord * focalDistance * cos));
+				+ (2 * distanceFromBord * focalDistance * cos));*/
 
-			return (R1 + R2 <= marmaid.Width);
+			double R1 = marmaid.Width / 2 - difficulty;
+			double R2 = obstackle.Width / 2 - difficulty;
+			double minDistance = R1 + R2;
+
+			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
+			double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);
+			double distance = Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+
+			return (distance <= R1 + R2);
 		}
 
         private void button1_Click(object sender, EventArgs e)
@@ -453,7 +466,7 @@ namespace project
 
 
         }
-    }
+	}
 
     
 }

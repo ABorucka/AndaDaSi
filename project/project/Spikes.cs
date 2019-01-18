@@ -159,5 +159,24 @@ namespace project
 
         }
 
-    }
+		public bool CollisionWithSpikes(PictureBox mermaid)
+		{
+			int mermaidCenterX = mermaid.Location.X + mermaid.Width / 2;
+			int mermaidCenterY = mermaid.Location.Y + mermaid.Height / 2;
+
+			foreach (SpikeRight s in listSpikesRight)
+			{
+				
+			}
+			//double R1 = spikeSize;
+			//double R2 = obstackle.Width / 2 - difficulty;
+			//double minDistance = R1 + R2;
+
+			//double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
+			//double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);
+			//double distance = Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+
+			return true; //(distance <= R1 + R2);
+		}
+	}
 }
