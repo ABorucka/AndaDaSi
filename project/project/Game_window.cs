@@ -104,7 +104,14 @@ namespace project
                 obstackles = 13;
                     
             }
-            marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), marmaid.Top + Convert.ToInt32(marmaid.Vy));
+			if (marmaid.Top <= 0 - marmaid.Height)
+			{
+				marmaid.Vy += impulsTime;
+				impulsTime = 0;
+			}
+
+			marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), 
+				marmaid.Top + Convert.ToInt32(marmaid.Vy));
                
             // Collision with Ursula, bubbles, shark and ground
             if (Collision(ursula))
@@ -134,8 +141,8 @@ namespace project
             }
 
 
-            //Jump
-            if (impulsTime != 0)
+			//Jump
+			if (impulsTime != 0)
                 {
                     impulsTime--;
                     marmaid.Vy++;
