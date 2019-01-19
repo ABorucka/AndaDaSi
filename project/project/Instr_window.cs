@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace project
@@ -16,7 +9,7 @@ namespace project
         public Instr_window()
         {
             InitializeComponent();
-            this.Text = "Instruction";
+            Text = "Instruction";
             instruction.MaximumSize = new Size(250, 0);
             instruction.AutoSize = true;
             instruction.Text = "Move your character by clicking a Jump button. " +

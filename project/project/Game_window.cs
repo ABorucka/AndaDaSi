@@ -52,16 +52,18 @@ namespace project
             shark.Visible = false;
             gameOverLabel.Visible = false;
             playAgainButton.Visible = false;
+            seagull.Visible = false;
+            seagull.SendToBack();
             
             
             //Move timer - for mermaid move and other pictureboxes apperance
             timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = false;
-            timerMarmaidMove.Tick += new EventHandler(TimerMove_Tick);
+            timerMarmaidMove.Tick += TimerMove_Tick;
 
             //Oxygen timer - for running out the oxygen
             timerOxygen.Interval = 8 * timerMarmaidMove.Interval;
-            timerOxygen.Tick += new EventHandler(TimerOxygen_Tick);
+            timerOxygen.Tick += TimerOxygen_Tick;
 
             //Reaction for closing the window
             this.Closing += Window_Closing;
@@ -248,6 +250,7 @@ namespace project
             timerMarmaidMove.Stop();
             gameOverLabel.Visible = true;
             playAgainButton.Visible = true;
+            seagull.Visible = true;
             newGame = false;
             if (sound_on)
             {
@@ -342,8 +345,10 @@ namespace project
             marmaid.Location = new Point(theOcean.Width / 2 - 25, theOcean.Height / 2 - 35);
             ursula.Visible = false;
             shark.Visible = false;
+            seagull.Visible = false;
             marmaid.Vx = marmaid.Vx > 0 ? marmaid.Vx_start : -marmaid.Vx_start;
             timerOxygen.Interval = 8 * timerMarmaidMove.Interval;
+            
 
         }
 
