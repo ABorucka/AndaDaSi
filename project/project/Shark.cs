@@ -12,6 +12,7 @@ namespace project
 	{
 		private int x;
 		private int y;
+        private int vy;
 
 		public Shark()
 		{
@@ -32,5 +33,16 @@ namespace project
 			get { return y; }
 			set { y = value; }
 		}
-	}
+
+        public int Vy
+        {
+            get { return vy; }
+            set { vy = value; }
+        }
+
+        public void Shark_down(int tmpY)
+        {
+            this.Location = new Point(X, tmpY);
+        }
+    }
 }

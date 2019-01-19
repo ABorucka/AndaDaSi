@@ -14,7 +14,7 @@ namespace project
         private List<SpikeLeft> listSpikesLeft = new List<SpikeLeft>();
         private const int spikeSize= 30;
         private const int placeForSpikes = 15;
-        private const int numberOfSpikes = 5;
+        private const int numberOfSpikes = 4;
         private int[] placesForSpikes = new int[numberOfSpikes];
         private bool leftSide;
         private bool go;
@@ -47,7 +47,7 @@ namespace project
                 go = true;
                 while (go)
                 {
-                    placesForSpikes[i] = rand.Next(0, placeForSpikes + 1);
+                    placesForSpikes[i] = rand.Next(0, placeForSpikes );
                     go = false;
                     for (int ii = 0; ii < i; ii++)
                     {

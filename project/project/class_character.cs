@@ -11,7 +11,7 @@ namespace project
     
     class class_character : TransparentPicture
 	{
-        private double vx = 2;
+        private double vx = 3;
         private double vy = 5;
        
         public double Vx
