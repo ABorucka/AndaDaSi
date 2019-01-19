@@ -100,6 +100,7 @@ namespace project
                 marmaid.rotate180();
                 points_display.Text = Convert.ToString(++point);
                 if (point % 5 == 0 && marmaid.Vx<7) wait = 5;
+                if (point % 10 == 0 && timerOxygen.Interval>30) timerOxygen.Interval-=5;
                 obstackles = 13;
                     
             }
@@ -342,7 +343,7 @@ namespace project
             ursula.Visible = false;
             shark.Visible = false;
             marmaid.Vx = marmaid.Vx > 0 ? marmaid.Vx_start : -marmaid.Vx_start;
-
+            timerOxygen.Interval = 8 * timerMarmaidMove.Interval;
 
         }
 

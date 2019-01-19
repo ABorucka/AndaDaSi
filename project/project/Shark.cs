@@ -1,48 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace project
 {
 	class Shark : TransparentPicture
 	{
-		private int x;
-		private int y;
-        private int vy;
-
-		public Shark()
+        public Shark()
 		{
-			this.Image = project.Properties.Resources.shark;
-			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Size = new Size(80, 80);
-            this.BackColor = Color.Transparent;
+			Image = Properties.Resources.shark;
+			SizeMode = PictureBoxSizeMode.Zoom;
+			Size = new Size(80, 80);
+            BackColor = Color.Transparent;
         }
 
-		public int X
-		{
-			get { return x; }
-			set { x = value; }
-		}
+		public int X { get; set; }
 
-		public int Y
-		{
-			get { return y; }
-			set { y = value; }
-		}
+        public int Y { get; set; }
 
-        public int Vy
-        {
-            get { return vy; }
-            set { vy = value; }
-        }
+        public int Vy { get; set; }
 
         public void Shark_down(int tmpY)
         {
-            this.Location = new Point(X, tmpY);
+            Location = new Point(X, tmpY);
         }
     }
 }

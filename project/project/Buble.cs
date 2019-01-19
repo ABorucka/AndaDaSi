@@ -1,35 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace project
 {
-	class Buble : TransparentPicture
+    internal class Buble : TransparentPicture
 	{
-		private int x;
-		private int y;
-
-		public Buble()
+        public Buble()
 		{
-			this.Image = Properties.Resources.buble;
-			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Size = new Size(30, 30);
+			Image = Properties.Resources.buble;
+			SizeMode = PictureBoxSizeMode.Zoom;
+			Size = new Size(30, 30);
 		}
 
-		public int X
-		{
-			get { return x; }
-			set { x = value; }
-		}
+		public int X { get; set; }
 
-		public int Y
-		{
-			get { return y; }
-			set { y = value; }
-		}
-	}
+        public int Y { get; set; }
+    }
 }

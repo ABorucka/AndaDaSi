@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace project
@@ -17,8 +12,8 @@ namespace project
 			base.OnResize(e);
 			using (var gp = new GraphicsPath())
 			{
-				gp.AddEllipse(new Rectangle(0, 0, this.Width, this.Height));
-				this.Region = new Region(gp);
+				gp.AddEllipse(new Rectangle(0, 0, Width, Height));
+				Region = new Region(gp);
 			}
 		}
 	}

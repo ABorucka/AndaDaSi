@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace project
@@ -22,57 +19,43 @@ namespace project
 
         public Spikes() {  }
     
-        public int SpikeSize
-        {
-            get { return spikeSize; }
-           // set { spikeSize = value; }
-        }
+        public int SpikeSize => spikeSize;
 
-        public int PlaceForSpikes
-        {
-            get { return placeForSpikes; }
-            // set { spikeSize = value; }
-        }
+        public int PlaceForSpikes => placeForSpikes;
 
-        public bool LeftSide
-        {
-            get { return leftSide; }
-            //set {  = value; }
-        }
+        public bool LeftSide => leftSide;
 
         public void NoRepeatingSpikesPosition()
         {
-            for (int i = 0; i < numberOfSpikes; i++)
+            for (var i = 0; i < numberOfSpikes; i++)
             {
                 go = true;
                 while (go)
                 {
                     placesForSpikes[i] = rand.Next(0, placeForSpikes );
                     go = false;
-                    for (int ii = 0; ii < i; ii++)
-                    {
+                    for (var ii = 0; ii < i; ii++)
                         if (placesForSpikes[i] == placesForSpikes[ii])
                         {
                             go = true;
                             break;
                         }
-                    }
                 }
             }
         }
 
         public void StartListOfSpikes(Panel theOcean)
         {
-            for (int i = 0; i < numberOfSpikes; i++)
+            for (var i = 0; i < numberOfSpikes; i++)
             {
-                SpikeRight newSpike = new SpikeRight();
+                var newSpike = new SpikeRight();
                 newSpike.X = theOcean.Width - spikeSize;
                 newSpike.Y = placesForSpikes[i] * spikeSize;
                 newSpike.Location = new Point(newSpike.X, newSpike.Y);
                 listSpikesRight.Add(newSpike);
                 theOcean.Controls.Add(newSpike);
 
-                SpikeLeft newSpikeL = new SpikeLeft();
+                var newSpikeL = new SpikeLeft();
                 newSpikeL.X = 0 - spikeSize;
                 newSpikeL.Y = placesForSpikes[i] * spikeSize;
                 newSpikeL.Location = new Point(newSpikeL.X, newSpikeL.Y);
@@ -85,58 +68,47 @@ namespace project
 
         public void Spikes_show()
         {
-            if (leftSide == true)
-            {
-                foreach (SpikeLeft s in listSpikesLeft)
+            if (leftSide)
+                foreach (var s in listSpikesLeft)
                 {
                     s.X += 6;
                     s.Location = new Point(s.X, s.Y);
-				}
-            }
-            else if (leftSide == false)
-            {
-                foreach (SpikeRight s in listSpikesRight)
+                }
+            else
+                foreach (var s in listSpikesRight)
                 {
                     s.X -= 6;
                     s.Location = new Point(s.X, s.Y);
-				}
-            }
-            
-
+                }
         }
 
         public void Spikes_hide()
         {
 
-            if (leftSide == true)
-            {
-                foreach (SpikeLeft s in listSpikesLeft)
+            if (leftSide)
+                foreach (var s in listSpikesLeft)
                 {
                     s.X -= 6;
                     s.Location = new Point(s.X, s.Y);
                 }
-            }
-            else if (leftSide == false)
-            {
-                foreach (SpikeRight s in listSpikesRight)
+            else
+                foreach (var s in listSpikesRight)
                 {
                     s.X += 6;
                     s.Location = new Point(s.X, s.Y);
                 }
-            }
-
         }
         /* New places for spikes */
         public void Spikes_spreading(Panel theOcean)
         {
 
-            if (leftSide == false) { leftSide = true; }
-            else if (leftSide == true) { leftSide = false; }
+            if (leftSide == false)
+                leftSide = true;
+            else if (leftSide) leftSide = false;
 
-            int n = 0;
-            if (leftSide == true)
-            {
-                foreach (SpikeLeft s in listSpikesLeft)
+            var n = 0;
+            if (leftSide)
+                foreach (var s in listSpikesLeft)
                 {
                     s.X = 0 - spikeSize;
                     s.Y = placesForSpikes[n] * spikeSize;
@@ -144,10 +116,8 @@ namespace project
                     theOcean.Controls.Add(s);
                     n++;
                 }
-            }
             else if (leftSide == false)
-            {
-                foreach (SpikeRight s in listSpikesRight)
+                foreach (var s in listSpikesRight)
                 {
                     s.X = theOcean.Width;
                     s.Y = placesForSpikes[n] * spikeSize;
@@ -155,70 +125,61 @@ namespace project
                     theOcean.Controls.Add(s);
                     n++;
                 }
-            }
-
         }
 
 		public bool CollisionWithSpikes(PictureBox mermaid)
 		{
-			bool collision = false;
+			var collision = false;
 
 			int mermaidCenterX;
 			if (leftSide == false)
-			{
-				mermaidCenterX = mermaid.Location.X + mermaid.Width - (mermaid.Height / 5);
-			}
-			else
-			{
-				mermaidCenterX = mermaid.Location.X + (mermaid.Height / 5);
-			}
-			int mermaidCenterY = mermaid.Location.Y + mermaid.Height / 2;
+                mermaidCenterX = mermaid.Location.X + mermaid.Width - mermaid.Height / 5;
+            else
+                mermaidCenterX = mermaid.Location.X + mermaid.Height / 5;
+            var mermaidCenterY = mermaid.Location.Y + mermaid.Height / 2;
 
 			double spikeR = 5;
 			double mermaidR = 8;
 
 			if (leftSide == false)
-			{
-				foreach (SpikeRight s in listSpikesRight)
-				{
-					int spikeCenterX = s.X;
-					int spikeCenterY = s.Y + (spikeSize / 2);
+                foreach (var s in listSpikesRight)
+                {
+                    var spikeCenterX = s.X;
+                    var spikeCenterY = s.Y + spikeSize / 2;
 
-					double distance = calculateDistance
-						(mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
+                    var distance = calculateDistance
+                        (mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
 
-					if (distance <= spikeR + mermaidR)
-					{
-						collision = true;
-						break;
-					}
-				}
-			}
-			else if (leftSide == true)
-			{
-				foreach (SpikeLeft s in listSpikesLeft)
-				{
-					int spikeCenterX = s.X + spikeSize;
-					int spikeCenterY = s.Y + (spikeSize / 2);
+                    if (distance <= spikeR + mermaidR)
+                    {
+                        collision = true;
+                        break;
+                    }
+                }
+            else if (leftSide)
+                foreach (var s in listSpikesLeft)
+                {
+                    var spikeCenterX = s.X + spikeSize;
+                    var spikeCenterY = s.Y + spikeSize / 2;
 
-					double distance = calculateDistance
-						(mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
+                    var distance = calculateDistance
+                        (mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
 
-					if (distance <= spikeR + mermaidR)
-					{
-						collision = true;
-						break;
-					}
-				}
-			}
-			return collision;
+                    if (distance <= spikeR + mermaidR)
+                    {
+                        collision = true;
+                        break;
+                    }
+                }
+
+            return collision;
 		}
 
 		private double calculateDistance(int mermX, int spikX, int mermY, int spikY)
 		{
 			double distanceX = Math.Abs(mermX - spikX);
 			double distanceY = Math.Abs(mermY - spikY);
-			return (Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2)));
+			return Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
 		}
 	}
 }
