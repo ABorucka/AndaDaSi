@@ -43,7 +43,6 @@
             this.title.Size = new System.Drawing.Size(207, 52);
             this.title.TabIndex = 0;
             this.title.Text = "Under the sea";
-            this.title.Click += new System.EventHandler(this.label1_Click);
             // 
             // choose_label
             // 
@@ -64,7 +63,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "START";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.start_Click);
             // 
             // Instruction
             // 
