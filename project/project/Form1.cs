@@ -274,7 +274,7 @@ namespace project
 			}
 			else
 			{
-				isThereaCollision = DistanceFromObstacle(pictureBox, 7);
+				isThereaCollision = DistanceFromObstacle(pictureBox, 9);
 			}
 
 			isThereaSpike = spikes.CollisionWithSpikes(marmaid);
@@ -284,12 +284,20 @@ namespace project
 
 		private bool DistanceFromObstacle(PictureBox obstackle, int difficulty)
 		{
-			int marmaidCenterX = marmaid.Location.X + marmaid.Width/2;
+			int marmaidCenterX = 0;
+			if (spikes.LeftSide == false)
+			{
+				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2) + 15;
+			}
+			else if (spikes.LeftSide == true)
+			{
+				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2) - 15;
+			}
 			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
 			int obstackleCenterX = obstackle.Location.X + obstackle.Width/2;
-			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2;
+			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2 + 5;
 			
-			double R1 = marmaid.Width / 2 - difficulty;
+			double R1 = marmaid.Height / 2;
 			double R2 = obstackle.Width / 2 - difficulty;
 
 			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);

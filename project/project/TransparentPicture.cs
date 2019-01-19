@@ -17,7 +17,7 @@ namespace project
 			base.OnResize(e);
 			using (var gp = new GraphicsPath())
 			{
-				gp.AddEllipse(new Rectangle(0, 0, this.Width - 0, this.Height - 0));
+				gp.AddEllipse(new Rectangle(0, 0, this.Width, this.Height));
 				this.Region = new Region(gp);
 			}
 		}

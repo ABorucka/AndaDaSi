@@ -91,7 +91,7 @@ namespace project
                 {
                     s.X += 6;
                     s.Location = new Point(s.X, s.Y);
-                }
+				}
             }
             else if (leftSide == false)
             {
@@ -99,7 +99,7 @@ namespace project
                 {
                     s.X -= 6;
                     s.Location = new Point(s.X, s.Y);
-                }
+				}
             }
             
 
