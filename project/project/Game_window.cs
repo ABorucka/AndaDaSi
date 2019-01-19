@@ -15,6 +15,7 @@ namespace project
         int obstackles = 0;     // time for operate the spikes
         bool newGame = true;    // new game?
         int wait = 0;           // to chceck if the velocity should be increased
+        bool sound_on = true;
 
         SoundPlayer mainSong = new SoundPlayer(Properties.Resources.under_cut);             // Main song - Under the sea
         SoundPlayer dieSong = new SoundPlayer(Properties.Resources.Gabsssss_andadasi_2);    // Sound to inform that game is over - selfmade 
@@ -34,7 +35,7 @@ namespace project
         int sharkRand = 0;
         int ursulaRand = 0;
 
-		public UnderTheSea(int character_image)
+		public UnderTheSea(int character_image, bool soundOn)
         {
             InitializeComponent();
 
@@ -51,7 +52,8 @@ namespace project
             shark.Visible = false;
             gameOverLabel.Visible = false;
             playAgainButton.Visible = false;
-
+            
+            
             //Move timer - for mermaid move and other pictureboxes apperance
             timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = false;
@@ -63,6 +65,9 @@ namespace project
 
             //Reaction for closing the window
             this.Closing += Window_Closing;
+            sound_on = soundOn;
+            if (!sound_on) sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+
         }
 
 		private void TimerMove_Tick(object sender, EventArgs e)
@@ -94,7 +99,7 @@ namespace project
                 marmaid.Vx *= -1;
                 marmaid.rotate180();
                 points_display.Text = Convert.ToString(++point);
-                if (point % 5 == 0) wait = 5;
+                if (point % 5 == 0 && marmaid.Vx<7) wait = 5;
                 obstackles = 13;
                     
             }
@@ -195,7 +200,8 @@ namespace project
             //Incerasing of velocity
             if(wait!=0)
             {
-                marmaid.Vx++;
+                double tmp = Math.Abs(marmaid.Vx) + 1;
+                marmaid.Vx = marmaid.Vx>0 ? tmp : -tmp;
                 wait = 0;
             }
                    
@@ -234,8 +240,11 @@ namespace project
             gameOverLabel.Visible = true;
             playAgainButton.Visible = true;
             newGame = false;
-            mainSong.Dispose();
-            dieSong.PlaySync();
+            if (sound_on)
+            {
+                mainSong.Dispose();
+                dieSong.PlaySync();
+            }
         }
 
         // Watching mouse click - bouncing the character 
@@ -253,7 +262,7 @@ namespace project
 					timerOxygen.Start();
                     timerMarmaidMove.Enabled = true;
                     timerMarmaidMove.Start();
-                    mainSong.Play();
+                    if (sound_on)  mainSong.Play();
 				}
 
 			}
@@ -325,8 +334,27 @@ namespace project
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             mainSong.Stop();
+            sound_on = false;
+            Die();
         }
 
+        private void sound_Click(object sender, EventArgs e)
+        {
+            if (sound_on)
+            {
+                mainSong.Stop();
+                dieSong.Stop();
+                sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+            }
+            else
+            {
+                sound.BackgroundImage = Properties.Resources.volume_on;
+                if(timerMarmaidMove.Enabled==true)
+                    mainSong.PlayLooping();
+            }
+            sound_on = !sound_on;
+            
+        }
     }
 
     

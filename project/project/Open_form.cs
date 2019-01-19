@@ -8,13 +8,15 @@ namespace project
 {
     public partial class Open_form : Form
     {
-        public int id = 1;                                                          // Default marmeid 
-        List<choose_mermaid> mermaids = new List<choose_mermaid>();                 // List of mermaid
-        SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);      // Song
+        public int id = 1;                                                                   // Default marmeid 
+        readonly List<choose_mermaid> mermaids = new List<choose_mermaid>();                 // List of mermaid
+        readonly SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);      // Song
+        private bool sound_on = true;
         
         public Open_form()
         {
             InitializeComponent();
+            this.Text = "MENU";
             title.BackColor = Color.Transparent;
             choose_label.BackColor = Color.Transparent; 
 
@@ -52,7 +54,7 @@ namespace project
         // Start new game 
         private void Start_Click(object sender, EventArgs e)
         {
-            UnderTheSea game = new UnderTheSea(id);
+            UnderTheSea game = new UnderTheSea(id,sound_on);
             game.FormClosed += Close_game;
             menuSong.Stop();
             game.ShowDialog();
@@ -62,7 +64,8 @@ namespace project
         //React when game window is closed
         private void Close_game (object sender, EventArgs e)
         {
-            menuSong.PlayLooping();
+            if(sound_on)
+                menuSong.PlayLooping();
         }
 
         //Open instruction
@@ -72,8 +75,19 @@ namespace project
             inst.ShowDialog();   
         }
 
-
-
-      
+        private void sound_Click(object sender, EventArgs e)
+        {
+            if (sound_on)
+            {
+                menuSong.Stop();
+                sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+            }
+            else
+            {
+                sound.BackgroundImage = Properties.Resources.volume_on;
+                menuSong.PlayLooping();
+            }
+            sound_on = !sound_on;
+        }
     }
 }

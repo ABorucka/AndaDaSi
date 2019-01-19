@@ -180,5 +180,11 @@
   <ItemGroup>
     <None Include="Resources\under_cut.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\volume_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Volume_Off-512.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

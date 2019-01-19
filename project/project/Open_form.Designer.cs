@@ -32,15 +32,16 @@
             this.choose_label = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.Instruction = new System.Windows.Forms.Button();
+            this.sound = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // title
             // 
             this.title.AutoSize = true;
-            this.title.Font = new System.Drawing.Font("Mistral", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.title.Location = new System.Drawing.Point(289, 28);
+            this.title.Font = new System.Drawing.Font("Gabriola", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.title.Location = new System.Drawing.Point(277, 9);
             this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(207, 52);
+            this.title.Size = new System.Drawing.Size(226, 81);
             this.title.TabIndex = 0;
             this.title.Text = "Under the sea";
             // 
@@ -67,13 +68,27 @@
             // 
             // Instruction
             // 
-            this.Instruction.Location = new System.Drawing.Point(645, 403);
+            this.Instruction.Location = new System.Drawing.Point(618, 411);
             this.Instruction.Name = "Instruction";
             this.Instruction.Size = new System.Drawing.Size(125, 35);
             this.Instruction.TabIndex = 3;
             this.Instruction.Text = "INSTRUCTION";
             this.Instruction.UseVisualStyleBackColor = true;
             this.Instruction.Click += new System.EventHandler(this.Instruction_Click);
+            // 
+            // sound
+            // 
+            this.sound.BackColor = System.Drawing.Color.Tan;
+            this.sound.BackgroundImage = global::project.Properties.Resources.volume_on;
+            this.sound.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sound.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.sound.Location = new System.Drawing.Point(749, 398);
+            this.sound.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.sound.Name = "sound";
+            this.sound.Size = new System.Drawing.Size(49, 48);
+            this.sound.TabIndex = 8;
+            this.sound.UseVisualStyleBackColor = false;
+            this.sound.Click += new System.EventHandler(this.sound_Click);
             // 
             // Open_form
             // 
@@ -82,6 +97,7 @@
             this.BackgroundImage = global::project.Properties.Resources.tlo;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.sound);
             this.Controls.Add(this.Instruction);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.choose_label);
@@ -99,5 +115,6 @@
         private System.Windows.Forms.Label choose_label;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Instruction;
+        private System.Windows.Forms.Button sound;
     }
 }
