@@ -34,14 +34,8 @@ namespace project
         Buble bubble2 = new Buble();
         Shark shark = new Shark();
         Spikes spikes = new Spikes();
-
-//		public const int spikeSize = 30;
+		
 		public const int ursulaSize = 100;
-/*		public const int placeForSpikes = 15;
-		public const int numberOfSpikes = 5;
-		int[] placesForSpikes = new int[numberOfSpikes];
-		bool leftSide;
-		bool go;*/
         int sharkTmpY = 0;
         int sharkRand = 0;
         int ursulaRand = 0;
@@ -117,8 +111,8 @@ namespace project
 /* Collision with Ursula, bubble and shark */
                 if (Collision(ursula))
                 {
-                        marmaid.BackColor = Color.Red;
-                        ursula.BackColor = Color.AliceBlue;
+                        //marmaid.BackColor = Color.Red;
+                        //ursula.BackColor = Color.AliceBlue;
                     oxygen_progers.Value -= oxygen_progers.Value > 10 ? 10 : oxygen_progers.Value;
                     ursula.Visible = false;   
                 }
@@ -154,8 +148,8 @@ namespace project
                     
 
 
-                    marmaid.BackColor = Color.Green;
-					shark.BackColor = Color.AliceBlue;
+					//marmaid.BackColor = Color.Green;
+					//shark.BackColor = Color.AliceBlue;
 				}
 
                 if (impulsTime != 0)
@@ -231,10 +225,7 @@ namespace project
 		{
 			//timerSpikeMove.Enabled = true;
             spikes.NoRepeatingSpikesPosition();
-			//NoRepeatingSpikesPosition();
 			spikes.StartListOfSpikes(theOcean);
-           // StartListOfSpikes();
-			//leftSide = false;
 		}
 /* Determine hight of the ocean */
 		private void theOcean_Paint(object sender, PaintEventArgs e)
@@ -278,96 +269,17 @@ namespace project
 
 			}
 		}
-
-		/*
-
-
-        private void Spikes_show()
-        {
-                if (leftSide == true)
-                {
-                    foreach (SpikeLeft s in listSpikesLeft)
-                    {
-                        s.X += 6;
-                        s.Location = new Point(s.X, s.Y);
-                    }
-                }
-                else if (leftSide == false)
-                {
-                    foreach (SpikeRight s in listSpikesRight)
-                    {
-                        s.X -= 6;
-                        s.Location = new Point(s.X, s.Y);
-                    }
-                }
-                theOcean.Refresh();
-            
-        }*/
-
        
         private void Shark_down(int tmpY)
         {
             shark.Location = new Point(shark.X, tmpY);
         }
-/*
-        private void Spikes_hide()
-        {
-            
-                if (leftSide == true)
-                {
-                    foreach (SpikeLeft s in listSpikesLeft)
-                    {
-                        s.X -= 6;
-                        s.Location = new Point(s.X, s.Y);
-                    }
-                }
-                else if (leftSide == false)
-                {
-                    foreach (SpikeRight s in listSpikesRight)
-                    {
-                        s.X += 6;
-                        s.Location = new Point(s.X, s.Y);
-                    }
-                }
-                theOcean.Refresh();
-            
-        }*/
-/* New places for spikes */
-  /*      public void Spikes_spreading()
-        {
 
-            if (leftSide == false) { leftSide = true; }
-            else if (leftSide == true) { leftSide = false; }
-
-            int n = 0;
-            if (leftSide == true)
-            {
-                foreach (SpikeLeft s in listSpikesLeft)
-                {
-                    s.X = 0 - spikeSize;
-                    s.Y = placesForSpikes[n] * spikeSize;
-                    s.Location = new Point(s.X, s.Y);
-                    theOcean.Controls.Add(s);
-                    n++;
-                }
-            }
-            else if (leftSide == false)
-            {
-                foreach (SpikeRight s in listSpikesRight)
-                {
-                    s.X = theOcean.Width;
-                    s.Y = placesForSpikes[n] * spikeSize;
-                    s.Location = new Point(s.X, s.Y);
-                    theOcean.Controls.Add(s);
-                    n++;
-                }
-            }
-           
-        }
-        */
        private bool Collision(PictureBox pictureBox)
        {
 			bool isThereaCollision = false;
+			bool isThereaSpike = false;
+
 			if (pictureBox == bubble || pictureBox == bubble2)
 			{
 				isThereaCollision = DistanceFromObstacle(pictureBox, 0);
@@ -376,7 +288,10 @@ namespace project
 			{
 				isThereaCollision = DistanceFromObstacle(pictureBox, 7);
 			}
-			return (isThereaCollision && pictureBox.Visible == true);
+
+			isThereaSpike = spikes.CollisionWithSpikes(marmaid);
+
+			return (isThereaCollision && pictureBox.Visible == true || isThereaSpike == true);
 		}
 
 		private bool DistanceFromObstacle(PictureBox obstackle, int difficulty)
@@ -385,28 +300,9 @@ namespace project
 			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
 			int obstackleCenterX = obstackle.Location.X + obstackle.Width/2;
 			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2;
-
-			/*double radius = circle.Height / 2;
-			double majorAxis = marmaid.Width / 2;
-			double minorAxis = marmaid.Height / 2;
-			double focalDistance = Math.Sqrt(Math.Pow(majorAxis,2) - Math.Pow(minorAxis, 2));
-			double distanceToCenter = Math.Sqrt(Math.Pow((elipseCenterX - (int)focalDistance),2) 
-				+ Math.Pow((elipseCenterY - circleCenterY),2));
-			double distanceToFoci = Math.Sqrt(Math.Pow((elipseCenterX - circleCenterX),2)
-				+ Math.Pow((elipseCenterY - circleCenterY),2));
-			double distanceFromBord = distanceToCenter - radius;
-
-			double cos = (Math.Pow(distanceToCenter,2) + Math.Pow(focalDistance,2) - Math.Pow(distanceToFoci,2))
-				/ (2 * distanceToCenter * focalDistance);
-
-			double R1 = Math.Sqrt(Math.Pow(focalDistance,2) + Math.Pow(distanceFromBord, 2)
-				- (2 * distanceFromBord * focalDistance * cos));
-			double R2 = Math.Sqrt(Math.Pow(focalDistance, 2) + Math.Pow(distanceFromBord, 2)
-				+ (2 * distanceFromBord * focalDistance * cos));*/
-
+			
 			double R1 = marmaid.Width / 2 - difficulty;
 			double R2 = obstackle.Width / 2 - difficulty;
-			double minDistance = R1 + R2;
 
 			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
 			double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);

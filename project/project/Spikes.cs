@@ -161,22 +161,64 @@ namespace project
 
 		public bool CollisionWithSpikes(PictureBox mermaid)
 		{
-			int mermaidCenterX = mermaid.Location.X + mermaid.Width / 2;
+			bool collision = false;
+
+			int mermaidCenterX;
+			if (leftSide == false)
+			{
+				mermaidCenterX = mermaid.Location.X + mermaid.Width - (mermaid.Height / 5);
+			}
+			else
+			{
+				mermaidCenterX = mermaid.Location.X + (mermaid.Height / 5);
+			}
 			int mermaidCenterY = mermaid.Location.Y + mermaid.Height / 2;
 
-			foreach (SpikeRight s in listSpikesRight)
+			double spikeR = 5;
+			double mermaidR = 8;
+
+			if (leftSide == false)
 			{
-				
+				foreach (SpikeRight s in listSpikesRight)
+				{
+					int spikeCenterX = s.X;
+					int spikeCenterY = s.Y + (spikeSize / 2);
+
+					double distance = calculateDistance
+						(mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
+
+					if (distance <= spikeR + mermaidR)
+					{
+						collision = true;
+						break;
+					}
+				}
 			}
-			//double R1 = spikeSize;
-			//double R2 = obstackle.Width / 2 - difficulty;
-			//double minDistance = R1 + R2;
+			else if (leftSide == true)
+			{
+				foreach (SpikeLeft s in listSpikesLeft)
+				{
+					int spikeCenterX = s.X + spikeSize;
+					int spikeCenterY = s.Y + (spikeSize / 2);
 
-			//double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
-			//double distanceY = Math.Abs(marmaidCenterY - obstackleCenterY);
-			//double distance = Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+					double distance = calculateDistance
+						(mermaidCenterX, spikeCenterX, mermaidCenterY, spikeCenterY);
 
-			return true; //(distance <= R1 + R2);
+					if (distance <= spikeR + mermaidR)
+					{
+						collision = true;
+						break;
+					}
+				}
+			}
+			return collision;
+		}
+
+		private double calculateDistance(int mermX, int spikX, int mermY, int spikY)
+		{
+			double distanceX = Math.Abs(mermX - spikX);
+			double distanceY = Math.Abs(mermY - spikY);
+			return (Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2)));
 		}
 	}
 }
