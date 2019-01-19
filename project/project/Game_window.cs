@@ -60,7 +60,7 @@ namespace project
             timerMarmaidMove.Tick += new EventHandler(TimerMove_Tick);
 
             //Oxygen timer - for running out the oxygen
-            timerOxygen.Interval = 10 * timerMarmaidMove.Interval;
+            timerOxygen.Interval = 8 * timerMarmaidMove.Interval;
             timerOxygen.Tick += new EventHandler(TimerOxygen_Tick);
 
             //Reaction for closing the window
