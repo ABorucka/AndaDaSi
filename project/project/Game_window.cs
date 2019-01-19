@@ -103,7 +103,14 @@ namespace project
                 obstackles = 13;
                     
             }
-            marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), marmaid.Top + Convert.ToInt32(marmaid.Vy));
+			if (marmaid.Top <= 0 - marmaid.Height)
+			{
+				marmaid.Vy += impulsTime;
+				impulsTime = 0;
+			}
+
+			marmaid.Location = new Point(marmaid.Left + Convert.ToInt32(marmaid.Vx), 
+				marmaid.Top + Convert.ToInt32(marmaid.Vy));
                
             // Collision with Ursula, bubbles, shark and ground
             if (Collision(ursula))
@@ -133,8 +140,8 @@ namespace project
             }
 
 
-            //Jump
-            if (impulsTime != 0)
+			//Jump
+			if (impulsTime != 0)
                 {
                     impulsTime--;
                     marmaid.Vy++;
@@ -155,19 +162,20 @@ namespace project
                 }
             }
 
-            if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
-            {
-                int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursula.Width - spikes.SpikeSize);
-                int tmpY = rand.Next(0, theOcean.Height - ursula.Height - weed.Height);
-                if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
+                if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
                 {
-                    ursula.X = tmpX;
-                    ursula.Y = tmpY;
-                    ursula.Location = new Point(ursula.X, ursula.Y);
-                    ursulaRand = rand.Next(80,200);
-                    ursula.Visible = true;
+                    int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursula.Width - spikes.SpikeSize);
+                    int tmpY = rand.Next(0, theOcean.Height - ursula.Height - 2* weed.Height);
+                    if ((marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
+						&& ((tmpX + ursula.Width < shark.X || tmpX > shark.X + shark.Width)))
+                    {
+                        ursula.X = tmpX;
+                        ursula.Y = tmpY;
+                        ursula.Location = new Point(ursula.X, ursula.Y);
+                        ursulaRand = rand.Next(80,200);
+                        ursula.Visible = true;
+                    }
                 }
-            }
 
             if (bubble.Visible==false)
             {
@@ -299,11 +307,18 @@ namespace project
 			{
 				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2) - 15;
 			}
+			else if (obstackle == bubble || obstackle == bubble2)
+			{
+				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2);
+			}
 			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
 			int obstackleCenterX = obstackle.Location.X + obstackle.Width/2;
 			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2 + 5;
-			
-			double R1 = marmaid.Height / 2;
+
+			double R1;
+			if (obstackle == bubble || obstackle == bubble2)
+				R1 = marmaid.Width / 2;
+			else R1 = marmaid.Height / 2;
 			double R2 = obstackle.Width / 2 - difficulty;
 
 			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
