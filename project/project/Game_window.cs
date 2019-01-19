@@ -326,6 +326,7 @@ namespace project
             marmaid.Location = new Point(theOcean.Width / 2 - 25, theOcean.Height / 2 - 35);
             ursula.Visible = false;
             shark.Visible = false;
+            marmaid.Vx = marmaid.Vx > 0 ? marmaid.Vx_start : -marmaid.Vx_start;
 
 
         }

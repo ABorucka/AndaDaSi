@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace project
@@ -11,51 +6,28 @@ namespace project
     
     class class_character : TransparentPicture
 	{
-        private double vx = 3;
-        private double vy = 5;
-       
-        public double Vx
-        {
-            get
-            {
-                return vx;
-            }
-            set
-            {
-                vx = value;
-            }
-        }
-        public double Vy
-        {
-            get
-            {
-                return vy;
-            }
-            set
-            {
-                vy = value;
-            }
-        }
+        public double Vx { get; set; } = 3;
+
+        public double Vy { get; set; } = 5;
+
+        public double Vx_start { get; } = 3;
 
         public class_character(int character)
         {
-            this.Size = new Size(70, 50);
+            Size = new Size(70, 50);
 
-            if (character == 1)
-                this.Image = Properties.Resources.blond_men;
-            else
-                this.Image = Properties.Resources.girl_brown;
-			this.SizeMode = PictureBoxSizeMode.Zoom;
-			this.Image.RotateFlip(RotateFlipType.Rotate270FlipX);
-			this.BackColor = Color.Transparent;
-            this.BringToFront();
+            Image = character == 1 ? Properties.Resources.blond_men : Properties.Resources.girl_brown;
+			SizeMode = PictureBoxSizeMode.Zoom;
+			Image.RotateFlip(RotateFlipType.Rotate270FlipX);
+			BackColor = Color.Transparent;
+            BringToFront();
 		}
 
         public void rotate180()
         {
-			Image tmp = this.Image;
+			Image tmp = Image;
             tmp.RotateFlip(RotateFlipType.Rotate180FlipNone);
-            this.Image = tmp;
+            Image = tmp;
 		}
     }
 }
