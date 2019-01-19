@@ -53,6 +53,7 @@
 			this.theOcean.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.theOcean.Controls.Add(this.weed);
 			this.theOcean.Controls.Add(this.sea);
+			this.theOcean.Controls.Add(this.gameOverLabel);
 			this.theOcean.Location = new System.Drawing.Point(9, 10);
 			this.theOcean.Margin = new System.Windows.Forms.Padding(2);
 			this.theOcean.Name = "theOcean";
@@ -86,10 +87,10 @@
 			// 
 			this.playAgainButton.BackColor = System.Drawing.Color.LightPink;
 			this.playAgainButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.playAgainButton.Location = new System.Drawing.Point(612, 246);
+			this.playAgainButton.Location = new System.Drawing.Point(633, 246);
 			this.playAgainButton.Margin = new System.Windows.Forms.Padding(2);
 			this.playAgainButton.Name = "playAgainButton";
-			this.playAgainButton.Size = new System.Drawing.Size(162, 32);
+			this.playAgainButton.Size = new System.Drawing.Size(104, 32);
 			this.playAgainButton.TabIndex = 6;
 			this.playAgainButton.Text = "Play again!";
 			this.playAgainButton.UseVisualStyleBackColor = false;
@@ -100,7 +101,7 @@
 			this.gameOverLabel.AutoSize = true;
 			this.gameOverLabel.BackColor = System.Drawing.Color.LightCoral;
 			this.gameOverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.gameOverLabel.Location = new System.Drawing.Point(606, 162);
+			this.gameOverLabel.Location = new System.Drawing.Point(194, 174);
 			this.gameOverLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.gameOverLabel.Name = "gameOverLabel";
 			this.gameOverLabel.Size = new System.Drawing.Size(177, 31);
@@ -129,7 +130,7 @@
 			// points_label
 			// 
 			this.points_label.AutoSize = true;
-			this.points_label.Location = new System.Drawing.Point(612, 107);
+			this.points_label.Location = new System.Drawing.Point(612, 87);
 			this.points_label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.points_label.Name = "points_label";
 			this.points_label.Size = new System.Drawing.Size(36, 13);
@@ -139,7 +140,7 @@
 			// points_display
 			// 
 			this.points_display.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.points_display.Location = new System.Drawing.Point(612, 133);
+			this.points_display.Location = new System.Drawing.Point(612, 110);
 			this.points_display.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.points_display.Name = "points_display";
 			this.points_display.Size = new System.Drawing.Size(92, 19);
@@ -151,9 +152,9 @@
 			this.jumpButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
 			this.jumpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.jumpButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-			this.jumpButton.Location = new System.Drawing.Point(648, 283);
+			this.jumpButton.Location = new System.Drawing.Point(633, 283);
 			this.jumpButton.Name = "jumpButton";
-			this.jumpButton.Size = new System.Drawing.Size(89, 86);
+			this.jumpButton.Size = new System.Drawing.Size(104, 96);
 			this.jumpButton.TabIndex = 5;
 			this.jumpButton.Text = "Jump!";
 			this.jumpButton.UseVisualStyleBackColor = false;
@@ -168,7 +169,6 @@
 			this.Controls.Add(this.points_display);
 			this.Controls.Add(this.playAgainButton);
 			this.Controls.Add(this.points_label);
-			this.Controls.Add(this.gameOverLabel);
 			this.Controls.Add(this.oxygen_progers);
 			this.Controls.Add(this.oxygen_label);
 			this.Controls.Add(this.theOcean);
@@ -177,6 +177,7 @@
 			this.Text = "Under the Sea";
 			this.Load += new System.EventHandler(this.UnderTheSea_Load);
 			this.theOcean.ResumeLayout(false);
+			this.theOcean.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.weed)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sea)).EndInit();
 			this.ResumeLayout(false);

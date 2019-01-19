@@ -160,8 +160,9 @@ namespace project
                 if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
                 {
                     int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursula.Width - spikes.SpikeSize);
-                    int tmpY = rand.Next(0, theOcean.Height - ursula.Width - weed.Height);
-                    if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
+                    int tmpY = rand.Next(0, theOcean.Height - ursula.Height - 2* weed.Height);
+                    if ((marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
+						&& ((tmpX + ursula.Width < shark.X || tmpX > shark.X + shark.Width)))
                     {
                         ursula.X = tmpX;
                         ursula.Y = tmpY;
@@ -174,7 +175,7 @@ namespace project
                 if (bubble.Visible==false)
                 {
                     bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - weed.Height);
+                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - 2 * weed.Height);
                     bubble.Visible = true;
                     bubble.Location = new Point(bubble.X, bubble.Y);
                 }
@@ -294,11 +295,18 @@ namespace project
 			{
 				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2) - 15;
 			}
+			else if (obstackle == bubble || obstackle == bubble2)
+			{
+				marmaidCenterX = marmaid.Location.X + (marmaid.Width / 2);
+			}
 			int marmaidCenterY = marmaid.Location.Y + marmaid.Height/2;
 			int obstackleCenterX = obstackle.Location.X + obstackle.Width/2;
 			int obstackleCenterY = obstackle.Location.Y + obstackle.Height/2 + 5;
-			
-			double R1 = marmaid.Height / 2;
+
+			double R1;
+			if (obstackle == bubble || obstackle == bubble2)
+				R1 = marmaid.Width / 2;
+			else R1 = marmaid.Height / 2;
 			double R2 = obstackle.Width / 2 - difficulty;
 
 			double distanceX = Math.Abs(marmaidCenterX - obstackleCenterX);
