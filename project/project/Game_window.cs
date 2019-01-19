@@ -18,7 +18,6 @@ namespace project
 
         int impulsTime = 0;     // jump impuls
         int point = 0;          // amount of points
-        bool move = false;      // game is running?
         int obstackles = 0;     // time for operate the spikes
         bool newGame = true;    // new game?
         int wait = 0;           // to chceck if the velocity should be increased
@@ -145,81 +144,82 @@ namespace project
 
 
             //Random - decide if Ursula, shark or bubbles appear in the ocean*/
-                if (sharkRand == 0 && rand.Next(0,100) < point*0.0001 )
+            if (sharkRand == 0 && rand.Next(0,100) < point*0.0001 )
+            {
+                shark.X = rand.Next(2*spikes.SpikeSize, theOcean.Width - shark.Width - 2*spikes.SpikeSize);
+                if ((shark.X + shark.Width < ursula.X || shark.X > ursula.X + ursula.Width))
                 {
-                    shark.X = rand.Next(2*spikes.SpikeSize, theOcean.Width - shark.Width - 2*spikes.SpikeSize);
-                    if ((shark.X + shark.Width < ursula.X || shark.X > ursula.X + ursula.Width))
-                    {
-                        sharkTmpY = -shark.Height;
-                        sharkRand = 400;
-                        shark.Visible = true;
-                        shark.Vy = rand.Next(200-point*5, 200);
-                    }
+                    sharkTmpY = -shark.Height;
+                    sharkRand = 400;
+                    shark.Visible = true;
+                    shark.Vy = rand.Next(200-point*5, 200);
                 }
+            }
 
-                if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
+            if (ursulaRand == 0 && rand.Next(0, 100) < point * 0.0001)
+            {
+                int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursula.Width - spikes.SpikeSize);
+                int tmpY = rand.Next(0, theOcean.Height - ursula.Height - weed.Height);
+                if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
                 {
-                    int tmpX = rand.Next(spikes.SpikeSize, theOcean.Width - ursula.Width - spikes.SpikeSize);
-                    int tmpY = rand.Next(0, theOcean.Height - ursula.Width - weed.Height);
-                    if (marmaid.Left - marmaid.Width > tmpX || marmaid.Right + marmaid.Width < tmpX)
-                    {
-                        ursula.X = tmpX;
-                        ursula.Y = tmpY;
-                        ursula.Location = new Point(ursula.X, ursula.Y);
-                        ursulaRand = rand.Next(80,200);
-                        ursula.Visible = true;
-                    }
+                    ursula.X = tmpX;
+                    ursula.Y = tmpY;
+                    ursula.Location = new Point(ursula.X, ursula.Y);
+                    ursulaRand = rand.Next(80,200);
+                    ursula.Visible = true;
                 }
+            }
 
-                if (bubble.Visible==false)
-                {
-                    bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - weed.Height);
-                    bubble.Visible = true;
-                    bubble.Location = new Point(bubble.X, bubble.Y);
-                }
-                if (bubble2.Visible == false)
-                {
-                    bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble2.Y = rand.Next(0, theOcean.Height - bubble.Width - 2 * weed.Height);
-                    bubble2.Visible = true;
-                    bubble2.Location = new Point(bubble2.X, bubble2.Y);
-                }
-
-                if (sharkRand>0 )
-                {
-                    shark.Shark_down(sharkTmpY);
-                    sharkTmpY += (theOcean.Height / shark.Vy);
-                    sharkRand--;
-                }
-                if (ursulaRand > 0)
-                    ursulaRand--;
-                else
-                    ursula.Visible = false;
+            if (bubble.Visible==false)
+            {
+                bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                bubble.Y = rand.Next(0, theOcean.Height - bubble.Height - 2*weed.Height);
+                bubble.Visible = true;
+                bubble.Location = new Point(bubble.X, bubble.Y);
+            }
+            if (bubble2.Visible == false)
+            {
+                bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                bubble2.Y = rand.Next(0, theOcean.Height - bubble.Height - 2 * weed.Height);
+                bubble2.Visible = true;
+                bubble2.Location = new Point(bubble2.X, bubble2.Y);
+            }
 
 
-                if(wait!=0)
-                {
-                    marmaid.Vx++;
-                    wait = 0;
-                }
+            //Aperance of shark and urslua
+            if (sharkRand>0 )
+            {
+                shark.Shark_down(sharkTmpY);
+                sharkTmpY += (theOcean.Height / shark.Vy);
+                sharkRand--;
+            }
+            if (ursulaRand > 0)
+                ursulaRand--;
+            else
+                ursula.Visible = false;
+
+            //Incerasing of velocity
+            if(wait!=0)
+            {
+                marmaid.Vx++;
+                wait = 0;
+            }
                    
 
             
         }
-/* Init spikes and Ursula */
+        // Init spikes and Ursula 
 		private void UnderTheSea_Load(object sender, EventArgs e)
 		{
-			//timerSpikeMove.Enabled = true;
             spikes.NoRepeatingSpikesPosition();
 			spikes.StartListOfSpikes(theOcean);
 		}
-/* Determine hight of the ocean */
+        // Determine hight of the ocean */
 		private void theOcean_Paint(object sender, PaintEventArgs e)
 		{
 			theOcean.Height = spikes.SpikeSize * spikes.PlaceForSpikes+weed.Height;
 		}
-/* Oxygen is running out */
+        // Oxygen is running out - timer
 		private void TimerOxygen_Tick(object sender, EventArgs e)
         {
             
@@ -230,6 +230,7 @@ namespace project
             else { oxygen_progers.Value--; }
         }
 
+        // Some game over stuff
         private void die()
         {
             timerOxygen.Enabled = false;
@@ -242,7 +243,8 @@ namespace project
             mainSong.Dispose();
             dieSong.PlaySync();
         }
-/* Watching mouse click - bouncing the character */
+
+        // Watching mouse click - bouncing the character 
 		private void jumpButton_Click(object sender, EventArgs e)
 		{
 			if (newGame)
@@ -263,9 +265,9 @@ namespace project
 			}
 		}
        
-
-       private bool Collision(PictureBox pictureBox)
-       {
+        //Collision with obstackles based on distance between them
+        private bool Collision(PictureBox pictureBox)
+        {
 			bool isThereaCollision = false;
 			bool isThereaSpike = false;
 
@@ -308,7 +310,9 @@ namespace project
 			return (distance <= R1 + R2);
 		}
 
-        private void button1_Click(object sender, EventArgs e)
+
+        //Play again button
+        private void playAgain_Click(object sender, EventArgs e)
         {
             point = 0;
             oxygen_progers.Value = 100;
@@ -323,6 +327,7 @@ namespace project
 
         }
 
+        //Colsing window
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             mainSong.Stop();

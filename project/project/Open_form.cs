@@ -13,9 +13,9 @@ namespace project
 {
     public partial class Open_form : Form
     {
-        public int id = 1;
-        List<choose_mermaid> mermaids = new List<choose_mermaid>();
-        SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);
+        public int id = 1;                                                          // Default marmeid 
+        List<choose_mermaid> mermaids = new List<choose_mermaid>();                 // List of mermaid
+        SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);      // Song
         
         public Open_form()
         {
@@ -36,16 +36,12 @@ namespace project
                 this.Controls.Add(m);
                 m.MouseClick += new MouseEventHandler(characterClick);
             }
+
             menuSong.PlayLooping();
-           
         }
 
        
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-/* Choosing character */
+        // Choosing character 
         private void characterClick(object sender, EventArgs e)
         {
             choose_mermaid m = sender as choose_mermaid;
@@ -58,8 +54,8 @@ namespace project
             m.BackColor = Color.FromArgb(90, 0, 0, 0);
             
         }
-/* Start new game */
-        private void button1_Click(object sender, EventArgs e)
+        // Start new game 
+        private void start_Click(object sender, EventArgs e)
         {
             UnderTheSea game = new UnderTheSea(id);
             game.FormClosed += close_game;
@@ -68,11 +64,13 @@ namespace project
             
         }
 
+        //React when game window is closed
         private void close_game (object sender, EventArgs e)
         {
             menuSong.PlayLooping();
         }
 
+        //Open instruction
         private void Instruction_Click(object sender, EventArgs e)
         {
             Instr_window inst = new Instr_window();

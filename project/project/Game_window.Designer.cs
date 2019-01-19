@@ -93,7 +93,7 @@
 			this.playAgainButton.TabIndex = 6;
 			this.playAgainButton.Text = "Play again!";
 			this.playAgainButton.UseVisualStyleBackColor = false;
-			this.playAgainButton.Click += new System.EventHandler(this.button1_Click);
+			this.playAgainButton.Click += new System.EventHandler(this.playAgain_Click);
 			// 
 			// gameOverLabel
 			// 
