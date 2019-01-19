@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace project
@@ -24,17 +19,17 @@ namespace project
             choose_label.BackColor = Color.Transparent; 
 
             choose_mermaid m1 = new choose_mermaid(Properties.Resources.blond_men, 1);
-            m1.Location = new Point(this.Width / 3 - 50, this.Height / 2 - 62);
+            m1.Location = new Point(Width / 3 - 50, Height / 2 - 62);
             m1.BackColor = Color.FromArgb(90, 0, 0, 0); 
             choose_mermaid m2 = new choose_mermaid(Properties.Resources.girl_brown, 2);
-            m2.Location = new Point(this.Width*2 / 3 - 50, this.Height / 2 - 62);
+            m2.Location = new Point(Width*2 / 3 - 50, Height / 2 - 62);
             m2.BackColor = Color.Transparent;
             mermaids.Add(m1);
             mermaids.Add(m2);
             foreach (var m in mermaids)
             {
-                this.Controls.Add(m);
-                m.MouseClick += new MouseEventHandler(characterClick);
+                Controls.Add(m);
+                m.MouseClick += new MouseEventHandler(CharacterClick);
             }
 
             menuSong.PlayLooping();
@@ -42,7 +37,7 @@ namespace project
 
        
         // Choosing character 
-        private void characterClick(object sender, EventArgs e)
+        private void CharacterClick(object sender, EventArgs e)
         {
             choose_mermaid m = sender as choose_mermaid;
             id = m.Id;
@@ -55,17 +50,17 @@ namespace project
             
         }
         // Start new game 
-        private void start_Click(object sender, EventArgs e)
+        private void Start_Click(object sender, EventArgs e)
         {
             UnderTheSea game = new UnderTheSea(id);
-            game.FormClosed += close_game;
+            game.FormClosed += Close_game;
             menuSong.Stop();
             game.ShowDialog();
             
         }
 
         //React when game window is closed
-        private void close_game (object sender, EventArgs e)
+        private void Close_game (object sender, EventArgs e)
         {
             menuSong.PlayLooping();
         }

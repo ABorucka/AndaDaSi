@@ -93,7 +93,7 @@
 			this.playAgainButton.TabIndex = 6;
 			this.playAgainButton.Text = "Play again!";
 			this.playAgainButton.UseVisualStyleBackColor = false;
-			this.playAgainButton.Click += new System.EventHandler(this.playAgain_Click);
+			this.playAgainButton.Click += new System.EventHandler(this.PlayAgain_Click);
 			// 
 			// gameOverLabel
 			// 
@@ -157,7 +157,7 @@
 			this.jumpButton.TabIndex = 5;
 			this.jumpButton.Text = "Jump!";
 			this.jumpButton.UseVisualStyleBackColor = false;
-			this.jumpButton.Click += new System.EventHandler(this.jumpButton_Click);
+			this.jumpButton.Click += new System.EventHandler(this.JumpButton_Click);
 			// 
 			// UnderTheSea
 			// 

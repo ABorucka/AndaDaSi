@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using System.Media;
 
 namespace project
@@ -124,7 +118,7 @@ namespace project
                 bubble2.Visible = false;
             }
 
-            if(Collision(shark))    die();
+            if(Collision(shark))    Die();
 
             if (marmaid.Bottom >= (sea.Top) + sea.Height / 5)
             {
@@ -173,7 +167,7 @@ namespace project
             if (bubble.Visible==false)
             {
                 bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                bubble.Y = rand.Next(0, theOcean.Height - bubble.Height - 2*weed.Height);
+                bubble.Y = rand.Next(0, theOcean.Height - bubble.Height - 2 * weed.Height);
                 bubble.Visible = true;
                 bubble.Location = new Point(bubble.X, bubble.Y);
             }
@@ -225,13 +219,13 @@ namespace project
             
             if (oxygen_progers.Value==0)
             {
-                die();
+                Die();
             }
             else { oxygen_progers.Value--; }
         }
 
         // Some game over stuff
-        private void die()
+        private void Die()
         {
             timerOxygen.Enabled = false;
             timerOxygen.Stop();
@@ -245,12 +239,12 @@ namespace project
         }
 
         // Watching mouse click - bouncing the character 
-		private void jumpButton_Click(object sender, EventArgs e)
+		private void JumpButton_Click(object sender, EventArgs e)
 		{
 			if (newGame)
 			{
 
-				double velocity = -9;
+				const double velocity = -9;
 				marmaid.Vy = velocity;
 				impulsTime = Convert.ToInt16(Math.Abs(velocity)) + 4;
 				if (timerMarmaidMove.Enabled==false)
@@ -312,7 +306,7 @@ namespace project
 
 
         //Play again button
-        private void playAgain_Click(object sender, EventArgs e)
+        private void PlayAgain_Click(object sender, EventArgs e)
         {
             point = 0;
             oxygen_progers.Value = 100;
