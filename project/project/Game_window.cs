@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using System.Media;
 
 namespace project
@@ -21,6 +15,7 @@ namespace project
         int obstackles = 0;     // time for operate the spikes
         bool newGame = true;    // new game?
         int wait = 0;           // to chceck if the velocity should be increased
+        bool sound_on = true;
 
         SoundPlayer mainSong = new SoundPlayer(Properties.Resources.under_cut);             // Main song - Under the sea
         SoundPlayer dieSong = new SoundPlayer(Properties.Resources.Gabsssss_andadasi_2);    // Sound to inform that game is over - selfmade 
@@ -40,7 +35,7 @@ namespace project
         int sharkRand = 0;
         int ursulaRand = 0;
 
-		public UnderTheSea(int character_image)
+		public UnderTheSea(int character_image, bool soundOn)
         {
             InitializeComponent();
 
@@ -57,7 +52,8 @@ namespace project
             shark.Visible = false;
             gameOverLabel.Visible = false;
             playAgainButton.Visible = false;
-
+            
+            
             //Move timer - for mermaid move and other pictureboxes apperance
             timerMarmaidMove.Interval = 30;
             timerMarmaidMove.Enabled = false;
@@ -69,6 +65,9 @@ namespace project
 
             //Reaction for closing the window
             this.Closing += Window_Closing;
+            sound_on = soundOn;
+            if (!sound_on) sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+
         }
 
 		private void TimerMove_Tick(object sender, EventArgs e)
@@ -100,7 +99,7 @@ namespace project
                 marmaid.Vx *= -1;
                 marmaid.rotate180();
                 points_display.Text = Convert.ToString(++point);
-                if (point % 5 == 0) wait = 5;
+                if (point % 5 == 0 && marmaid.Vx<7) wait = 5;
                 obstackles = 13;
                     
             }
@@ -131,7 +130,7 @@ namespace project
                 bubble2.Visible = false;
             }
 
-            if(Collision(shark))    die();
+            if(Collision(shark))    Die();
 
             if (marmaid.Bottom >= (sea.Top) + sea.Height / 5)
             {
@@ -178,20 +177,20 @@ namespace project
                     }
                 }
 
-                if (bubble.Visible==false)
-                {
-                    bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble.Y = rand.Next(0, theOcean.Height - bubble.Width - 2 * weed.Height);
-                    bubble.Visible = true;
-                    bubble.Location = new Point(bubble.X, bubble.Y);
-                }
-                if (bubble2.Visible == false)
-                {
-                    bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
-                    bubble2.Y = rand.Next(0, theOcean.Height - bubble.Width - 2 * weed.Height);
-                    bubble2.Visible = true;
-                    bubble2.Location = new Point(bubble2.X, bubble2.Y);
-                }
+            if (bubble.Visible==false)
+            {
+                bubble.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                bubble.Y = rand.Next(0, theOcean.Height - bubble.Height - 2 * weed.Height);
+                bubble.Visible = true;
+                bubble.Location = new Point(bubble.X, bubble.Y);
+            }
+            if (bubble2.Visible == false)
+            {
+                bubble2.X = rand.Next(spikes.SpikeSize, theOcean.Width - bubble.Width - spikes.SpikeSize);
+                bubble2.Y = rand.Next(0, theOcean.Height - bubble.Height - 2 * weed.Height);
+                bubble2.Visible = true;
+                bubble2.Location = new Point(bubble2.X, bubble2.Y);
+            }
 
 
             //Aperance of shark and urslua
@@ -209,7 +208,8 @@ namespace project
             //Incerasing of velocity
             if(wait!=0)
             {
-                marmaid.Vx++;
+                double tmp = Math.Abs(marmaid.Vx) + 1;
+                marmaid.Vx = marmaid.Vx>0 ? tmp : -tmp;
                 wait = 0;
             }
                    
@@ -233,13 +233,13 @@ namespace project
             
             if (oxygen_progers.Value==0)
             {
-                die();
+                Die();
             }
             else { oxygen_progers.Value--; }
         }
 
         // Some game over stuff
-        private void die()
+        private void Die()
         {
             timerOxygen.Enabled = false;
             timerOxygen.Stop();
@@ -248,17 +248,20 @@ namespace project
             gameOverLabel.Visible = true;
             playAgainButton.Visible = true;
             newGame = false;
-            mainSong.Dispose();
-            dieSong.PlaySync();
+            if (sound_on)
+            {
+                mainSong.Dispose();
+                dieSong.PlaySync();
+            }
         }
 
         // Watching mouse click - bouncing the character 
-		private void jumpButton_Click(object sender, EventArgs e)
+		private void JumpButton_Click(object sender, EventArgs e)
 		{
 			if (newGame)
 			{
 
-				double velocity = -9;
+				const double velocity = -9;
 				marmaid.Vy = velocity;
 				impulsTime = Convert.ToInt16(Math.Abs(velocity)) + 4;
 				if (timerMarmaidMove.Enabled==false)
@@ -267,7 +270,7 @@ namespace project
 					timerOxygen.Start();
                     timerMarmaidMove.Enabled = true;
                     timerMarmaidMove.Start();
-                    mainSong.Play();
+                    if (sound_on)  mainSong.Play();
 				}
 
 			}
@@ -327,7 +330,7 @@ namespace project
 
 
         //Play again button
-        private void playAgain_Click(object sender, EventArgs e)
+        private void PlayAgain_Click(object sender, EventArgs e)
         {
             point = 0;
             oxygen_progers.Value = 100;
@@ -346,8 +349,27 @@ namespace project
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             mainSong.Stop();
+            sound_on = false;
+            Die();
         }
 
+        private void sound_Click(object sender, EventArgs e)
+        {
+            if (sound_on)
+            {
+                mainSong.Stop();
+                dieSong.Stop();
+                sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+            }
+            else
+            {
+                sound.BackgroundImage = Properties.Resources.volume_on;
+                if(timerMarmaidMove.Enabled==true)
+                    mainSong.PlayLooping();
+            }
+            sound_on = !sound_on;
+            
+        }
     }
 
     

@@ -16,6 +16,7 @@ namespace project
         public Instr_window()
         {
             InitializeComponent();
+            this.Text = "Instruction";
             instruction.MaximumSize = new Size(250, 0);
             instruction.AutoSize = true;
             instruction.Text = "Move your character by clicking a mouse button. " +

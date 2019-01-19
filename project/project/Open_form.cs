@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace project
 {
     public partial class Open_form : Form
     {
-        public int id = 1;                                                          // Default marmeid 
-        List<choose_mermaid> mermaids = new List<choose_mermaid>();                 // List of mermaid
-        SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);      // Song
+        public int id = 1;                                                                   // Default marmeid 
+        readonly List<choose_mermaid> mermaids = new List<choose_mermaid>();                 // List of mermaid
+        readonly SoundPlayer menuSong = new SoundPlayer(Properties.Resources.kiss_cut);      // Song
+        private bool sound_on = true;
         
         public Open_form()
         {
             InitializeComponent();
+            this.Text = "MENU";
             title.BackColor = Color.Transparent;
             choose_label.BackColor = Color.Transparent; 
 
             choose_mermaid m1 = new choose_mermaid(Properties.Resources.blond_men, 1);
-            m1.Location = new Point(this.Width / 3 - 50, this.Height / 2 - 62);
+            m1.Location = new Point(Width / 3 - 50, Height / 2 - 62);
             m1.BackColor = Color.FromArgb(90, 0, 0, 0); 
             choose_mermaid m2 = new choose_mermaid(Properties.Resources.girl_brown, 2);
-            m2.Location = new Point(this.Width*2 / 3 - 50, this.Height / 2 - 62);
+            m2.Location = new Point(Width*2 / 3 - 50, Height / 2 - 62);
             m2.BackColor = Color.Transparent;
             mermaids.Add(m1);
             mermaids.Add(m2);
             foreach (var m in mermaids)
             {
-                this.Controls.Add(m);
-                m.MouseClick += new MouseEventHandler(characterClick);
+                Controls.Add(m);
+                m.MouseClick += new MouseEventHandler(CharacterClick);
             }
 
             menuSong.PlayLooping();
@@ -42,7 +39,7 @@ namespace project
 
        
         // Choosing character 
-        private void characterClick(object sender, EventArgs e)
+        private void CharacterClick(object sender, EventArgs e)
         {
             choose_mermaid m = sender as choose_mermaid;
             id = m.Id;
@@ -55,19 +52,20 @@ namespace project
             
         }
         // Start new game 
-        private void start_Click(object sender, EventArgs e)
+        private void Start_Click(object sender, EventArgs e)
         {
-            UnderTheSea game = new UnderTheSea(id);
-            game.FormClosed += close_game;
+            UnderTheSea game = new UnderTheSea(id,sound_on);
+            game.FormClosed += Close_game;
             menuSong.Stop();
             game.ShowDialog();
             
         }
 
         //React when game window is closed
-        private void close_game (object sender, EventArgs e)
+        private void Close_game (object sender, EventArgs e)
         {
-            menuSong.PlayLooping();
+            if(sound_on)
+                menuSong.PlayLooping();
         }
 
         //Open instruction
@@ -77,8 +75,19 @@ namespace project
             inst.ShowDialog();   
         }
 
-
-
-      
+        private void sound_Click(object sender, EventArgs e)
+        {
+            if (sound_on)
+            {
+                menuSong.Stop();
+                sound.BackgroundImage = Properties.Resources.Volume_Off_512;
+            }
+            else
+            {
+                sound.BackgroundImage = Properties.Resources.volume_on;
+                menuSong.PlayLooping();
+            }
+            sound_on = !sound_on;
+        }
     }
 }

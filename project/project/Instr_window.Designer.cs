@@ -49,10 +49,10 @@
             // 
             this.instruction.AutoSize = true;
             this.instruction.BackColor = System.Drawing.Color.Transparent;
-            this.instruction.Font = new System.Drawing.Font("Gabriola", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.instruction.Font = new System.Drawing.Font("Gabriola", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.instruction.Location = new System.Drawing.Point(452, 131);
             this.instruction.Name = "instruction";
-            this.instruction.Size = new System.Drawing.Size(54, 40);
+            this.instruction.Size = new System.Drawing.Size(60, 40);
             this.instruction.TabIndex = 4;
             this.instruction.Text = "label1";
             // 
@@ -60,10 +60,10 @@
             // 
             this.instrukcja.AutoSize = true;
             this.instrukcja.BackColor = System.Drawing.Color.Transparent;
-            this.instrukcja.Font = new System.Drawing.Font("Gabriola", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.instrukcja.Font = new System.Drawing.Font("Gabriola", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.instrukcja.Location = new System.Drawing.Point(67, 131);
             this.instrukcja.Name = "instrukcja";
-            this.instrukcja.Size = new System.Drawing.Size(54, 40);
+            this.instrukcja.Size = new System.Drawing.Size(60, 40);
             this.instrukcja.TabIndex = 5;
             this.instrukcja.Text = "label1";
             // 
