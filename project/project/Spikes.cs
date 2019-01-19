@@ -9,13 +9,14 @@ namespace project
     {
         private List<SpikeRight> listSpikesRight = new List<SpikeRight>();
         private List<SpikeLeft> listSpikesLeft = new List<SpikeLeft>();
-        private const int spikeSize= 30;
-        private const int placeForSpikes = 15;
-        private const int numberOfSpikes = 4;
-        private int[] placesForSpikes = new int[numberOfSpikes];
-        private bool leftSide;
-        private bool go;
-        private Random rand = new Random();
+        private const int spikeSize= 30; //size of a spike
+        private const int placeForSpikes = 15; //how many places for spikes are provided
+        private const int numberOfSpikes = 4; //how many spikes will be visible on the screen
+        private int[] placesForSpikes = new int[numberOfSpikes]; //a list of all posibilities to place a spake
+        private bool leftSide; //if spikes appear in the left side of the screen it is true, if in the right -- false
+        private bool go; //auxiliary variable
+
+		private Random rand = new Random();
 
         public Spikes() {  }
     
@@ -25,7 +26,8 @@ namespace project
 
         public bool LeftSide => leftSide;
 
-        public void NoRepeatingSpikesPosition()
+		//drawing the place for spikes without repetition
+		public void NoRepeatingSpikesPosition()
         {
             for (var i = 0; i < numberOfSpikes; i++)
             {
@@ -44,7 +46,9 @@ namespace project
             }
         }
 
-        public void StartListOfSpikes(Panel theOcean)
+		/*initialization of the spike lists and 
+		assigning places from NoRepeatingSpikesPosition()*/
+		public void StartListOfSpikes(Panel theOcean)
         {
             for (var i = 0; i < numberOfSpikes; i++)
             {
@@ -66,6 +70,7 @@ namespace project
             
         }
 
+		//Mooving spikes -- show and hide
         public void Spikes_show()
         {
             if (leftSide)
@@ -98,8 +103,10 @@ namespace project
                     s.Location = new Point(s.X, s.Y);
                 }
         }
-        /* New places for spikes */
-        public void Spikes_spreading(Panel theOcean)
+
+		/* New places for spikes and induction of 
+		 * NoRepeatingSpikesPosition() method*/
+		public void Spikes_spreading(Panel theOcean)
         {
 
             if (leftSide == false)
@@ -127,6 +134,7 @@ namespace project
                 }
         }
 
+		//collision with spikes
 		public bool CollisionWithSpikes(PictureBox mermaid)
 		{
 			var collision = false;
@@ -175,6 +183,8 @@ namespace project
             return collision;
 		}
 
+		/*function which calculate the distance between spike and mermaid,
+		 needed in the collision function*/
 		private double calculateDistance(int mermX, int spikX, int mermY, int spikY)
 		{
 			double distanceX = Math.Abs(mermX - spikX);
