@@ -108,6 +108,7 @@
 			this.Controls.Add(this.title);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.MaximizeBox = false;
 			this.Name = "Open_form";
 			this.Text = "Open_form";
 			this.ResumeLayout(false);

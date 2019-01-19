@@ -190,6 +190,7 @@
 			this.Controls.Add(this.theOcean);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.MaximizeBox = false;
 			this.Name = "UnderTheSea";
 			this.Text = "Under the Sea";
 			this.Load += new System.EventHandler(this.UnderTheSea_Load);
