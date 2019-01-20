@@ -102,7 +102,7 @@ namespace project
                 marmaid.rotate180();
                 points_display.Text = Convert.ToString(++point);
                 if (point % 5 == 0 && marmaid.Vx<7) wait = 5;
-                if (point % 10 == 0 && timerOxygen.Interval>30) timerOxygen.Interval-=5;
+                if (point % 10 == 0 && timerOxygen.Interval>5* timerMarmaidMove.Interval) timerOxygen.Interval-=5;
                 obstackles = 13;
                     
             }
